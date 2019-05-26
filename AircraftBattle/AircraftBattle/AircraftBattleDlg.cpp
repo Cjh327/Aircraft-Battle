@@ -7,6 +7,7 @@
 #include "AircraftBattle.h"
 #include "AircraftBattleDlg.h"
 #include "afxdialogex.h"
+#include "AircraftMain.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -65,6 +66,7 @@ BEGIN_MESSAGE_MAP(CAircraftBattleDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_BN_CLICKED(IDOK, &CAircraftBattleDlg::OnBnClickedOk)
 END_MESSAGE_MAP()
 
 
@@ -153,3 +155,13 @@ HCURSOR CAircraftBattleDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+
+
+void CAircraftBattleDlg::OnBnClickedOk()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	//CDialogEx::OnOK();
+	AircraftMain* dlg = new AircraftMain;
+	dlg->Create(IDD_DIALOG1, this);                //第一个参数是对话框ID号
+	dlg->ShowWindow(SW_SHOW);
+}
