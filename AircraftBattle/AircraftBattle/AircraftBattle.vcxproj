@@ -191,6 +191,7 @@
     <ClInclude Include="AircraftBattleDlg.h" />
     <ClInclude Include="AircraftMain.h" />
     <ClInclude Include="CGameObject.h" />
+    <ClInclude Include="CPlane.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
@@ -201,6 +202,7 @@
     <ClCompile Include="AircraftBattleDlg.cpp" />
     <ClCompile Include="AircraftMain.cpp" />
     <ClCompile Include="CGameObject.cpp" />
+    <ClCompile Include="CPlane.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -215,6 +217,9 @@
     <None Include="res\AircraftBattle.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\..\..\..\desktop\planewar-mfc-master\planewar-mfc-master\planewar\image\bitmap1.bmp" />
+    <Image Include="..\..\..\..\..\Desktop\PlaneWar-MFC-master\PlaneWar-MFC-master\PlaneWar\image\me.bmp" />
+    <Image Include="..\..\..\..\..\Desktop\PlaneWar-MFC-master\PlaneWar-MFC-master\PlaneWar\image\me1.bmp" />
     <Image Include="res\AircraftBattle.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

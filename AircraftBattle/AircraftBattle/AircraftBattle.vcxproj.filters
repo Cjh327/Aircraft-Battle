@@ -39,6 +39,9 @@
     <ClInclude Include="CGameObject.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="CPlane.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AircraftBattle.cpp">
@@ -56,6 +59,9 @@
     <ClCompile Include="CGameObject.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="CPlane.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="AircraftBattle.rc">
@@ -69,6 +75,15 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\AircraftBattle.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\Desktop\PlaneWar-MFC-master\PlaneWar-MFC-master\PlaneWar\image\me.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\desktop\planewar-mfc-master\planewar-mfc-master\planewar\image\bitmap1.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\Desktop\PlaneWar-MFC-master\PlaneWar-MFC-master\PlaneWar\image\me1.bmp">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>
