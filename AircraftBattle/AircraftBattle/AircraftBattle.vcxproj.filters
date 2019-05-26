@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Aircraft Battle.h">
+    <ClInclude Include="AircraftBattle.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Aircraft BattleDlg.h">
+    <ClInclude Include="AircraftBattleDlg.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="framework.h">
@@ -35,10 +35,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Aircraft Battle.cpp">
+    <ClCompile Include="AircraftBattle.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Aircraft BattleDlg.cpp">
+    <ClCompile Include="AircraftBattleDlg.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
@@ -56,7 +56,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\Aircraft Battle.ico">
+    <Image Include="res\AircraftBattle.ico">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

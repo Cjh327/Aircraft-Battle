@@ -1,11 +1,11 @@
 ﻿
-// Aircraft BattleDlg.cpp: 实现文件
+// AircraftBattleDlg.cpp: 实现文件
 //
 
 #include "pch.h"
 #include "framework.h"
-#include "Aircraft Battle.h"
-#include "Aircraft BattleDlg.h"
+#include "AircraftBattle.h"
+#include "AircraftBattleDlg.h"
 #include "afxdialogex.h"
 
 #ifdef _DEBUG

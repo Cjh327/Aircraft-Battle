@@ -1,5 +1,5 @@
 ﻿
-// Aircraft Battle.h: PROJECT_NAME 应用程序的主头文件
+// AircraftBattle.h: PROJECT_NAME 应用程序的主头文件
 //
 
 #pragma once
@@ -12,7 +12,7 @@
 
 
 // CAircraftBattleApp:
-// 有关此类的实现，请参阅 Aircraft Battle.cpp
+// 有关此类的实现，请参阅 AircraftBattle.cpp
 //
 
 class CAircraftBattleApp : public CWinApp

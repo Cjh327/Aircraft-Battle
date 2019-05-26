@@ -1,5 +1,5 @@
 ﻿
-// Aircraft BattleDlg.h: 头文件
+// AircraftBattleDlg.h: 头文件
 //
 
 #pragma once

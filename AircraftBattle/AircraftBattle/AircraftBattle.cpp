@@ -1,11 +1,11 @@
 ﻿
-// Aircraft Battle.cpp: 定义应用程序的类行为。
+// AircraftBattle.cpp: 定义应用程序的类行为。
 //
 
 #include "pch.h"
 #include "framework.h"
-#include "Aircraft Battle.h"
-#include "Aircraft BattleDlg.h"
+#include "AircraftBattle.h"
+#include "AircraftBattleDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
