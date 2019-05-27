@@ -15,10 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AircraftBattle.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="AircraftBattleDlg.h">
+    <ClInclude Include="MFCApplication4.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="framework.h">
@@ -27,69 +24,87 @@
     <ClInclude Include="targetver.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="MainFrm.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ChildFrm.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MFCApplication4Doc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MFCApplication4View.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
     <ClInclude Include="Resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="AircraftMain.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="CGameObject.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="CPlane.h">
+    <ClInclude Include="CMyplane.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="CAircraftBattleView.h">
+    <ClInclude Include="Scene.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AircraftBattle.cpp">
+    <ClCompile Include="MFCApplication4.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="AircraftBattleDlg.cpp">
+    <ClCompile Include="MainFrm.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ChildFrm.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MFCApplication4Doc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MFCApplication4View.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="AircraftMain.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="CGameObject.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="CPlane.cpp">
+    <ClCompile Include="CMyplane.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="CAircraftBattleView.cpp">
+    <ClCompile Include="Scene.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="AircraftBattle.rc">
+    <ResourceCompile Include="MFCApplication4.rc">
       <Filter>资源文件</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\AircraftBattle.rc2">
+    <None Include="res\MFCApplication4.rc2">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\AircraftBattle.ico">
+    <Image Include="res\MFCApplication4Doc.ico">
       <Filter>资源文件</Filter>
     </Image>
-    <Image Include="..\..\..\..\..\Desktop\PlaneWar-MFC-master\PlaneWar-MFC-master\PlaneWar\image\me.bmp">
+    <Image Include="res\MFCApplication4.ico">
       <Filter>资源文件</Filter>
     </Image>
-    <Image Include="..\..\..\..\..\desktop\planewar-mfc-master\planewar-mfc-master\planewar\image\bitmap1.bmp">
+    <Image Include="res\Toolbar.bmp">
       <Filter>资源文件</Filter>
     </Image>
-    <Image Include="..\..\..\..\..\Desktop\PlaneWar-MFC-master\PlaneWar-MFC-master\PlaneWar\image\me1.bmp">
+    <Image Include="..\..\..\..\Desktop\PlaneWar-MFC-master\PlaneWar-MFC-master\PlaneWar\image\me.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="..\..\..\..\Desktop\PlaneWar-MFC-master\PlaneWar-MFC-master\PlaneWar\image\me1.bmp">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

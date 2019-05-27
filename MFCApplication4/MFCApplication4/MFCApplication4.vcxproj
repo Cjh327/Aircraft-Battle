@@ -20,9 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{3D39EB99-A0CE-4CC5-A244-F06588197801}</ProjectGuid>
+    <ProjectGuid>{D39E8654-EA1D-496F-8A8B-917F5BA5AA75}</ProjectGuid>
     <Keyword>MFCProj</Keyword>
-    <RootNamespace>AircraftBattle</RootNamespace>
+    <RootNamespace>MFCApplication4</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -187,42 +187,47 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AircraftBattle.h" />
-    <ClInclude Include="AircraftBattleDlg.h" />
-    <ClInclude Include="AircraftMain.h" />
-    <ClInclude Include="CAircraftBattleView.h" />
     <ClInclude Include="CGameObject.h" />
-    <ClInclude Include="CPlane.h" />
+    <ClInclude Include="ChildFrm.h" />
+    <ClInclude Include="CMyplane.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="MFCApplication4.h" />
+    <ClInclude Include="MFCApplication4Doc.h" />
+    <ClInclude Include="MFCApplication4View.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AircraftBattle.cpp" />
-    <ClCompile Include="AircraftBattleDlg.cpp" />
-    <ClCompile Include="AircraftMain.cpp" />
-    <ClCompile Include="CAircraftBattleView.cpp" />
     <ClCompile Include="CGameObject.cpp" />
-    <ClCompile Include="CPlane.cpp" />
+    <ClCompile Include="ChildFrm.cpp" />
+    <ClCompile Include="CMyplane.cpp" />
+    <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="MFCApplication4.cpp" />
+    <ClCompile Include="MFCApplication4Doc.cpp" />
+    <ClCompile Include="MFCApplication4View.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="AircraftBattle.rc" />
+    <ResourceCompile Include="MFCApplication4.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\AircraftBattle.rc2" />
+    <None Include="res\MFCApplication4.rc2" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\..\desktop\planewar-mfc-master\planewar-mfc-master\planewar\image\bitmap1.bmp" />
-    <Image Include="..\..\..\..\..\Desktop\PlaneWar-MFC-master\PlaneWar-MFC-master\PlaneWar\image\me.bmp" />
-    <Image Include="..\..\..\..\..\Desktop\PlaneWar-MFC-master\PlaneWar-MFC-master\PlaneWar\image\me1.bmp" />
-    <Image Include="res\AircraftBattle.ico" />
+    <Image Include="..\..\..\..\Desktop\PlaneWar-MFC-master\PlaneWar-MFC-master\PlaneWar\image\me.bmp" />
+    <Image Include="..\..\..\..\Desktop\PlaneWar-MFC-master\PlaneWar-MFC-master\PlaneWar\image\me1.bmp" />
+    <Image Include="res\MFCApplication4.ico" />
+    <Image Include="res\MFCApplication4Doc.ico" />
+    <Image Include="res\Toolbar.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
