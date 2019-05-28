@@ -4,6 +4,7 @@
 
 #include "stdafx.h"
 #include <mmsystem.h>
+#include <iostream>
 #pragma comment(lib, "WINMM.LIB")
 #include <MMSYSTEM.H>
 // SHARED_HANDLERS 可以在实现预览、缩略图和搜索筛选器句柄的
@@ -213,17 +214,9 @@ void CPlaneWarView::OnTimer(UINT_PTR nIDEvent)
 	//替换cdc原本的缓冲区为缓冲位图，这样cdc输出的内容就写到了缓冲位图中
 	CBitmap* pOldBit = cdc.SelectObject(cacheBitmap);
 
-	//输出背景
-	if (isStarted == FALSE)
-		scene.StickScene(&cdc, -1, rect);
-	else
-		scene.StickScene(&cdc, passNum, rect);
-	if (nIDEvent == 4) {
-		//滚动背景
-		scene.MoveBg();
-	}
-	//欢迎界面
 	if (isStarted == FALSE) {
+		//欢迎界面
+		scene.StickScene(&cdc, -1, rect);
 		startIMG.Draw(&cdc, 0, CPoint(rect.right / 2 - 173, 100), ILD_TRANSPARENT);
 		//设置透明背景
 		cdc.SetBkMode(TRANSPARENT);
@@ -262,6 +255,18 @@ void CPlaneWarView::OnTimer(UINT_PTR nIDEvent)
 		CView::OnTimer(nIDEvent);
 		return;
 	}
+	else {
+		// 游戏界面
+		scene.StickScene(&cdc, passNum, rect);
+		if (nIDEvent == 4) {
+			//滚动背景
+			scene.MoveBg();
+		}
+		//刷新显示战机
+		if (myplane != NULL) {
+			myplane->Draw(&cdc, FALSE, isProtect);
+		}
+	}
 
 	//将二级缓冲cdc中的数据推送到一级级缓冲pDC中，即输出到屏幕中
 	pDC->BitBlt(0, 0, rect.Width(), rect.Height(), &cdc, 0, 0, SRCCOPY);
@@ -291,7 +296,7 @@ void CPlaneWarView::OnMouseMove(UINT nFlags, CPoint point)
 
 	if (myplane != NULL && isPause == 0) {
 		//绘制新游戏对象
-		myplane->SetPoint(point.x, point.y);
+		myplane->SetPoint(point.x - PLANE1_WIDTH / 2, point.y - PLANE1_HEIGHT / 2);
 	}
 	CView::OnMouseMove(nFlags, point);
 }

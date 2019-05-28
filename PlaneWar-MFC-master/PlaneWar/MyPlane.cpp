@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "MyPlane.h"
 #include "Resource.h"
+#include <iostream>
 
 //战机类实现
 
@@ -22,13 +23,13 @@ CMyPlane::~CMyPlane(void)
 {
 }
 //绘制战机
-BOOL CMyPlane::Draw(CDC* pDC, BOOL bPause,BOOL isProtect)
+BOOL CMyPlane::Draw(CDC* pDC, BOOL bPause, BOOL isProtect)
 {
 	if (bPause == 0) {
 		if (isProtect == TRUE) {
 			CPoint point;
-			point.x = mPoint.x-25;
-			point.y = mPoint.y-30;
+			point.x = mPoint.x - 25;
+			point.y = mPoint.y - 30;
 			imagespro.Draw(pDC, 0, point, ILD_TRANSPARENT);
 		}
 		if (index == 1) {
@@ -50,7 +51,7 @@ BOOL CMyPlane::Draw(CDC* pDC, BOOL bPause,BOOL isProtect)
 }
 BOOL CMyPlane::Draw(CDC* pDC, BOOL bPause) {
 	if (bPause == 0) {
-			return images.Draw(pDC, index, mPoint, ILD_TRANSPARENT);
+		return images.Draw(pDC, index, mPoint, ILD_TRANSPARENT);
 	}
 	return FALSE;
 }
@@ -71,7 +72,7 @@ BOOL CMyPlane::LoadImage()
 		return FALSE;//cx,cy 图片的宽度
 
 	//图像链表中加入对象对应的图标对象，之后直接通过该链表访问图标对象
-	images.Add(&me, RGB(0,0,0));
+	images.Add(&me, RGB(0, 0, 0));
 
 	images1.Add(&me1, RGB(0, 0, 0));
 	return TRUE;
@@ -90,7 +91,7 @@ BOOL CMyPlane::LoadImageProtect() {
 		return FALSE;//cx,cy 图片的宽度
 
 	//图像链表中加入对象对应的图标对象，之后直接通过该链表访问图标对象
-	imagespro.Add(&protect, RGB(255,255,255));
+	imagespro.Add(&protect, RGB(255, 255, 255));
 	//imagespro.Add(&protectme2, RGB(255, 255, 255));
 	return TRUE;
 }
@@ -101,7 +102,7 @@ BOOL CMyPlane::isFire()//是否可以发射导弹
 }
 
 void CMyPlane::SetIsUpdate(BOOL isUpdate) {
-	this->index= isUpdate;
+	this->index = isUpdate;
 }
 BOOL CMyPlane::GetIsUpdate() {
 	return index;
