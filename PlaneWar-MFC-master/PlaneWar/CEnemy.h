@@ -1,0 +1,27 @@
+#pragma once
+#include "GameObject.h"
+class CEnemy : public CGameObject
+{
+private:
+	int hp;
+	int speed;
+
+protected:
+	static CImageList enemyImages; //µÐ»úÍ¼Ïñ
+
+public:
+	CEnemy(int window_width, int window_heigh);
+	int getHp() const;
+	bool isAlive() const;
+	void setHp(int _hp);
+
+	CRect GetRect();
+
+	//»æÖÆ
+	BOOL Draw(CDC* pDC, BOOL bPause);
+	BOOL Draw(CDC* pDC, int passNum, BOOL bPause);
+
+	//¼ÓÔØµÐ»úÍ¼Ïñ
+	static BOOL LoadImage();
+};
+

@@ -15,6 +15,7 @@
 
 #include "PlaneWarDoc.h"
 #include "PlaneWarView.h"
+#include "CEnemy.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -150,6 +151,7 @@ int CPlaneWarView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	//加载游戏对象图片
 	CMyPlane::LoadImage();
 	CMyPlane::LoadImageProtect();
+	CEnemy::LoadImage();
 	//加载标题图片
 	CBitmap startbmp;
 	startbmp.LoadBitmapW(IDB_BMP_TITLE);
@@ -266,19 +268,48 @@ void CPlaneWarView::OnTimer(UINT_PTR nIDEvent)
 		if (myplane != NULL) {
 			myplane->Draw(&cdc, FALSE, isProtect);
 		}
+		//随机添加敌机,敌机随机发射炸弹，此时敌机速度与数量和关卡有关
+		if (myplane != NULL && isPause == 0 && isBoss == FALSE)
+		{
+			//敌机产生定时器触发
+			if (nIDEvent == 2) {
+				CEnemy* enemy = new CEnemy(rect.right, rect.bottom);
+				enemyList.AddTail(enemy);//随机产生敌机
+			}
+		}
+
+		//超出边界的敌机进行销毁
+		POSITION stPos = NULL, tPos = NULL;
+		stPos = enemyList.GetHeadPosition();
+		while (stPos != NULL)
+		{
+			tPos = stPos;
+			CEnemy* enemy = (CEnemy*)enemyList.GetNext(stPos);
+			//判断敌机是否出界
+			if (enemy->GetPoint().x<rect.left || enemy->GetPoint().x>rect.right
+				|| enemy->GetPoint().y<rect.top || enemy->GetPoint().y>rect.bottom)
+			{
+				enemyList.RemoveAt(tPos);
+				delete enemy;
+			}
+			else
+			{
+				//没出界，绘制
+				enemy->Draw(&cdc, passNum, FALSE);
+			}
+		}
+
+		//将二级缓冲cdc中的数据推送到一级级缓冲pDC中，即输出到屏幕中
+		pDC->BitBlt(0, 0, rect.Width(), rect.Height(), &cdc, 0, 0, SRCCOPY);
+		//释放二级cdc
+		cdc.DeleteDC();
+		//释放缓冲位图
+		cacheBitmap->DeleteObject();
+		//释放一级pDC
+		ReleaseDC(pDC);
+		CView::OnTimer(nIDEvent);
 	}
-
-	//将二级缓冲cdc中的数据推送到一级级缓冲pDC中，即输出到屏幕中
-	pDC->BitBlt(0, 0, rect.Width(), rect.Height(), &cdc, 0, 0, SRCCOPY);
-	//释放二级cdc
-	cdc.DeleteDC();
-	//释放缓冲位图
-	cacheBitmap->DeleteObject();
-	//释放一级pDC
-	ReleaseDC(pDC);
-	CView::OnTimer(nIDEvent);
 }
-
 //键盘按下监听
 void CPlaneWarView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
