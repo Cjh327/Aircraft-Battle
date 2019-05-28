@@ -132,6 +132,7 @@ BOOL CMFCApplication4App::InitInstance()
 	// 主窗口已初始化，因此显示它并对其进行更新
 	pMainFrame->ShowWindow(m_nCmdShow);
 	pMainFrame->UpdateWindow();
+	pMainFrame->SetWindowText(_T("MFC APP"));
 
 	return TRUE;
 }

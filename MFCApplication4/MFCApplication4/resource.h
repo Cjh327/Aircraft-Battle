@@ -4,6 +4,7 @@
 //
 #define IDD_ABOUTBOX                    100
 #define IDP_OLE_INIT_FAILED             100
+#define IDS_TOOLBAR_CUSTOMIZE           125
 #define IDR_MAINFRAME                   128
 #define IDR_MFCApplication4TYPE         130
 #define ID_WINDOW_MANAGER               131

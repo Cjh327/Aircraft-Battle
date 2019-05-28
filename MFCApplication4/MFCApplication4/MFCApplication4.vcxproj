@@ -187,6 +187,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="stdafx.h" />
     <ClInclude Include="CGameObject.h" />
     <ClInclude Include="ChildFrm.h" />
     <ClInclude Include="CMyplane.h" />
@@ -223,6 +224,8 @@
     <None Include="res\MFCApplication4.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\..\..\..\Desktop\PlaneWar-MFC-master\PlaneWar-MFC-master\PlaneWar\image\me.bmp" />
+    <Image Include="..\..\..\..\..\Desktop\PlaneWar-MFC-master\PlaneWar-MFC-master\PlaneWar\image\me1.bmp" />
     <Image Include="..\..\..\..\Desktop\PlaneWar-MFC-master\PlaneWar-MFC-master\PlaneWar\image\me.bmp" />
     <Image Include="..\..\..\..\Desktop\PlaneWar-MFC-master\PlaneWar-MFC-master\PlaneWar\image\me1.bmp" />
     <Image Include="res\MFCApplication4.ico" />
