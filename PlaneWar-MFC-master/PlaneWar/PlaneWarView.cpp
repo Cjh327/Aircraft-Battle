@@ -11,7 +11,7 @@
 #ifndef SHARED_HANDLERS
 #include "PlaneWar.h"
 #endif
-   
+
 #include "PlaneWarDoc.h"
 #include "PlaneWarView.h"
 
@@ -46,7 +46,7 @@ CPlaneWarView::CPlaneWarView()
 {
 	//默认战机飞行速度、战机生命值、战机得分、关卡、是否过关、是否暂停
 
-    // TODO: 在此处添加构造代码
+	// TODO: 在此处添加构造代码
 }
 
 CPlaneWarView::~CPlaneWarView()
@@ -154,7 +154,7 @@ int CPlaneWarView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	startbmp.LoadBitmapW(IDB_BMP_TITLE);
 	startIMG.Create(346, 96, ILC_COLOR24 | ILC_MASK, 1, 0);
 	startIMG.Add(&startbmp, RGB(0, 0, 0));
-	
+
 	//场景初始化失败
 	if (!scene.InitScene())
 	{
@@ -170,7 +170,7 @@ int CPlaneWarView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	lifeNum = DEFAULT_LIFE_COUNT;
 	lifeCount = 1;
 	passScore = 0;
-	myScore=0;
+	myScore = 0;
 	bossLoaded = TRUE;
 	passNum = DEFAULT_PASS;
 	isPass = 0;
@@ -194,7 +194,7 @@ void CPlaneWarView::OnTimer(UINT_PTR nIDEvent)
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
 
 	//双缓冲
-	CDC *pDC = GetDC();
+	CDC* pDC = GetDC();
 	if (pDC == NULL) {
 		CView::OnTimer(nIDEvent);
 		return;
@@ -211,7 +211,7 @@ void CPlaneWarView::OnTimer(UINT_PTR nIDEvent)
 	//绑定pDC和缓冲位图的关系，cdc先输出到缓冲位图中，输出完毕之后再一次性将缓冲位图输出到屏幕
 	cacheBitmap->CreateCompatibleBitmap(pDC, rect.Width(), rect.Height());
 	//替换cdc原本的缓冲区为缓冲位图，这样cdc输出的内容就写到了缓冲位图中
-	CBitmap *pOldBit = cdc.SelectObject(cacheBitmap);
+	CBitmap* pOldBit = cdc.SelectObject(cacheBitmap);
 
 	//输出背景
 	if (isStarted == FALSE)
@@ -224,32 +224,33 @@ void CPlaneWarView::OnTimer(UINT_PTR nIDEvent)
 	}
 	//欢迎界面
 	if (isStarted == FALSE) {
-		startIMG.Draw(&cdc, 0, CPoint(rect.right/2-173, 100), ILD_TRANSPARENT);
-		HFONT textFont;
-		textFont = CreateFont(12, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 10, 0);
-		cdc.SelectObject(textFont);
-		cdc.SetTextColor(RGB(128, 128, 0));
+		startIMG.Draw(&cdc, 0, CPoint(rect.right / 2 - 173, 100), ILD_TRANSPARENT);
 		//设置透明背景
 		cdc.SetBkMode(TRANSPARENT);
-		cdc.TextOutW(rect.right/2-120, 210, _T("方向控制：方向键、ASDW、鼠标"));
-		cdc.TextOutW(rect.right/ 2 - 120, 225, _T("射击：空格键、鼠标左键"));
-		cdc.TextOutW(rect.right / 2 - 120, 240, _T("暂停：Z键"));
-		cdc.TextOutW(rect.right / 2 - 120, 255, _T("大招：X键"));
-		cdc.TextOutW(rect.right / 2 - 120, 270, _T("防护罩：C键"));
-		cdc.TextOutW(rect.right / 2 - 120, 285, _T("战机升级：V键"));
-		cdc.TextOutW(rect.right / 2 - 120, 300, _T("无敌模式：Y键"));
-		cdc.TextOutW(rect.right / 2 - 120, 315, _T("初始生命值：10"));
-		cdc.TextOutW(rect.right / 2 - 120, 330, _T("初始魔法值：0"));
-		cdc.TextOutW(rect.right / 2 - 120, 345, _T("敌机生命值：2"));
-		cdc.TextOutW(rect.right / 2 - 120, 360, _T("消灭一个敌机加1分，如果分数达到要求即可进入Boss模式，打赢Boss即可进入下一关。"));
-		cdc.TextOutW(rect.right / 2 - 120, 375, _T("魔法值随着游戏进程增加，可通过使用魔法值使用防护罩、战机升级、战机大招的使用。"));
-		cdc.TextOutW(rect.right / 2 - 120, 390, _T("游戏过程中会有一定程度的血包出现以恢复生命值。"));
-		cdc.TextOutW(rect.right / 2 - 120, 405, _T("随着关卡增多，敌机、炮弹速度和数量均增加，通过10关即可通关！"));
 		HFONT tipFont;
-		tipFont = CreateFont(24, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 10, 0);
+		tipFont = CreateFont(30, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 10, 0);
 		cdc.SelectObject(tipFont);
-		cdc.SetTextColor(RGB(255, 0, 0));
-		cdc.TextOutW(rect.right / 2 - 120, 420, _T("点击鼠标左键或空格键开始游戏"));
+		cdc.SetTextColor(RGB(0, 0, 0));
+		cdc.TextOutW(rect.right / 2 - 200, 210, _T("点击鼠标左键或空格键开始游戏"));
+		HFONT textFont;
+		textFont = CreateFont(18, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 10, 0);
+		cdc.SelectObject(textFont);
+		cdc.SetTextColor(RGB(128, 128, 0));
+		const int space = 30, off = 180;
+		cdc.TextOutW(rect.right / 2 - off, 210 + space, _T("方向控制：方向键、ASDW、鼠标"));
+		cdc.TextOutW(rect.right / 2 - off, 210 + 2 * space, _T("射击：空格键、鼠标左键"));
+		cdc.TextOutW(rect.right / 2 - off, 210 + 3 * space, _T("暂停：Z键"));
+		cdc.TextOutW(rect.right / 2 - off, 210 + 4 * space, _T("大招：X键"));
+		cdc.TextOutW(rect.right / 2 - off, 210 + 5 * space, _T("防护罩：C键"));
+		cdc.TextOutW(rect.right / 2 - off, 210 + 6 * space, _T("战机升级：V键"));
+		cdc.TextOutW(rect.right / 2 - off, 210 + 7 * space, _T("无敌模式：Y键"));
+		cdc.TextOutW(rect.right / 2 - off, 210 + 8 * space, _T("初始生命值：10"));
+		cdc.TextOutW(rect.right / 2 - off, 210 + 9 * space, _T("初始魔法值：0"));
+		cdc.TextOutW(rect.right / 2 - off, 210 + 10 * space, _T("敌机生命值：2"));
+		cdc.TextOutW(rect.right / 2 - off, 210 + 11 * space, _T("消灭一个敌机加1分，如果分数达到要求即可进入Boss模式，打赢Boss即可进入下一关。"));
+		cdc.TextOutW(rect.right / 2 - off, 210 + 12 * space, _T("魔法值随着游戏进程增加，可通过使用魔法值使用防护罩、战机升级、战机大招的使用。"));
+		cdc.TextOutW(rect.right / 2 - off, 210 + 13 * space, _T("游戏过程中会有一定程度的血包出现以恢复生命值。"));
+		cdc.TextOutW(rect.right / 2 - off, 210 + 14 * space, _T("随着关卡增多，敌机、炮弹速度和数量均增加，通过10关即可通关！"));
 		//将二级缓冲cdc中的数据推送到一级级缓冲pDC中，即输出到屏幕中
 		pDC->BitBlt(0, 0, rect.Width(), rect.Height(), &cdc, 0, 0, SRCCOPY);
 		//释放二级cdc
@@ -288,9 +289,9 @@ void CPlaneWarView::OnMouseMove(UINT nFlags, CPoint point)
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
 
-	if (myplane!=NULL && isPause == 0 ) {
+	if (myplane != NULL && isPause == 0) {
 		//绘制新游戏对象
-		myplane->SetPoint(point.x,point.y);
+		myplane->SetPoint(point.x, point.y);
 	}
 	CView::OnMouseMove(nFlags, point);
 }
@@ -321,7 +322,7 @@ void CPlaneWarView::OnDestroy()
 	if (myplane != NULL)
 		delete myplane;
 
-		//释放内存资源
+	//释放内存资源
 	scene.ReleaseScene();
 
 	CView::OnDestroy();
@@ -382,7 +383,7 @@ void CPlaneWarView::Pause()
 }
 
 // 生命值归零，游戏结束
-void CPlaneWarView::gameOver(CDC* pDC,CDC& cdc,CBitmap* cacheBitmap)
+void CPlaneWarView::gameOver(CDC* pDC, CDC& cdc, CBitmap* cacheBitmap)
 {
 	//结束游戏界面
 	//释放计时器
@@ -409,9 +410,9 @@ void CPlaneWarView::gameOver(CDC* pDC,CDC& cdc,CBitmap* cacheBitmap)
 void CPlaneWarView::SetMyTimer()
 {
 	SetTimer(1, 17, NULL);//刷新界面定时器
-	SetTimer(2, 400-passNum*30, NULL);//产生敌机定时器
-	SetTimer(3, 2000- passNum * 100, NULL);//产生敌机炮弹频率
-	
+	SetTimer(2, 400 - passNum * 30, NULL);//产生敌机定时器
+	SetTimer(3, 2000 - passNum * 100, NULL);//产生敌机炮弹频率
+
 	SetTimer(5, 2000, NULL);//控制魔法值变化频率
 }
 
