@@ -12,10 +12,6 @@ CScene::~CScene(void)
 //初始化场景
 bool CScene::InitScene()
 {
-	/*this->images[0].Load(L"image\\background1.bmp");
-	this->images[1].Load(L"image\\background2.bmp");
-	this->images[2].Load(L"image\\background3.bmp");
-*/
 	//加载开始图片
 	this->images[0].Load(_T("image\\start.bmp"));
 	CString str;
@@ -28,7 +24,7 @@ bool CScene::InitScene()
 	}
 
 	//开始为真, 背景起始坐标为0
-	this->isStart = true;
+	this->isStart = TRUE;
 	this->beginY = 0;
 
 	//播放背景音乐
@@ -53,7 +49,7 @@ void CScene::StickScene(CDC* pDC,int index, CRect rClient)
 		beginY = 0;
 
 		if (isStart)
-			isStart = false;
+			isStart = FALSE;
 	}
 
 	//客户区高度

@@ -370,7 +370,7 @@ void CPlaneWarView::OnLButtonDown(UINT nFlags, CPoint point)
 		isStarted = TRUE;
 	}
 	else if (myplane != NULL) {
-		// 按空格键发射子弹
+		// 按鼠标左键发射子弹
 		CBullet* bullet = new CBullet(myplane->GetPoint().x + PLANE_WIDTH / 2 - BULLET_WIDTH / 2, myplane->GetPoint().y);
 		bulletList.AddTail(bullet);
 	}
@@ -381,7 +381,10 @@ void CPlaneWarView::OnLButtonDown(UINT nFlags, CPoint point)
 //鼠标右键监听
 void CPlaneWarView::OnRButtonUp(UINT /* nFlags */, CPoint point)
 {
-	// MyTODO
+	if (isStarted == TRUE && myplane != NULL) {
+		// 按鼠标右键发射炮弹
+		// MyTODO
+	}
 }
 
 //生命周期

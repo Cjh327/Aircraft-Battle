@@ -11,7 +11,7 @@ private:
 	CImage	images[8];//滚动背景,0位为开始图片，1-7为七张不同的背景
 	int		beginY;//背景的Y坐标
 
-	bool	isStart;//是否开始
+	BOOL	isStart;//是否开始
 
 //成员函数
 public:
