@@ -48,7 +48,7 @@ public:
 	//创建存储游戏对象的对象链表
 	CObList enemyList;
 	CObList meList;
-	CObList bombList;
+	CObList bulletList;
 	CObList ballList;
 	CObList explosionList;
 	CObList bloodList;

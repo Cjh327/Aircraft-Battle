@@ -16,6 +16,8 @@
 #include "PlaneWarDoc.h"
 #include "PlaneWarView.h"
 #include "CEnemy.h"
+#include "MyPlane.h"
+#include "CBullet.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -152,6 +154,7 @@ int CPlaneWarView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	CMyPlane::LoadImage();
 	CMyPlane::LoadImageProtect();
 	CEnemy::LoadImage();
+	CBullet::LoadImage();
 	//加载标题图片
 	CBitmap startbmp;
 	startbmp.LoadBitmapW(IDB_BMP_TITLE);
@@ -277,7 +280,6 @@ void CPlaneWarView::OnTimer(UINT_PTR nIDEvent)
 				enemyList.AddTail(enemy);//随机产生敌机
 			}
 		}
-
 		//超出边界的敌机进行销毁
 		POSITION stPos = NULL, tPos = NULL;
 		stPos = enemyList.GetHeadPosition();
@@ -299,6 +301,24 @@ void CPlaneWarView::OnTimer(UINT_PTR nIDEvent)
 			}
 		}
 
+		// 发射子弹，超出边界的子弹进行销毁
+		stPos = NULL, tPos = NULL;
+		stPos = bulletList.GetHeadPosition();
+		while (stPos != NULL) {
+			tPos = stPos;
+			CBullet* bullet = (CBullet*)bulletList.GetNext(stPos);
+			//判断敌机是否出界
+			if (bullet->GetPoint().x<rect.left || bullet->GetPoint().x>rect.right
+				|| bullet->GetPoint().y<rect.top || bullet->GetPoint().y>rect.bottom) {
+				bulletList.RemoveAt(tPos);
+				delete bullet;
+			}
+			else {
+				//没出界，绘制
+				bullet->Draw(&cdc, FALSE);
+			}
+		}
+
 		//将二级缓冲cdc中的数据推送到一级级缓冲pDC中，即输出到屏幕中
 		pDC->BitBlt(0, 0, rect.Width(), rect.Height(), &cdc, 0, 0, SRCCOPY);
 		//释放二级cdc
@@ -314,8 +334,17 @@ void CPlaneWarView::OnTimer(UINT_PTR nIDEvent)
 void CPlaneWarView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	//按空格进入游戏
-	if (isStarted == FALSE && (GetKeyState(VK_SPACE) < 0)) {
-		isStarted = TRUE;
+	if (isStarted == FALSE) {
+		if (GetKeyState(VK_SPACE) < 0) {
+			isStarted = TRUE;
+		}
+	}
+	else {
+		if (myplane != NULL && GetKeyState(VK_SPACE) < 0) {
+			// 按空格键发射子弹
+			CBullet* bullet = new CBullet(myplane->GetPoint().x + PLANE_WIDTH / 2 - BULLET_WIDTH / 2, myplane->GetPoint().y);
+			bulletList.AddTail(bullet);
+		}
 	}
 	CView::OnKeyDown(nChar, nRepCnt, nFlags);
 }
@@ -340,6 +369,11 @@ void CPlaneWarView::OnLButtonDown(UINT nFlags, CPoint point)
 	if (isStarted == FALSE) {
 		isStarted = TRUE;
 	}
+	else if (myplane != NULL) {
+		// 按空格键发射子弹
+		CBullet* bullet = new CBullet(myplane->GetPoint().x + PLANE_WIDTH / 2 - BULLET_WIDTH / 2, myplane->GetPoint().y);
+		bulletList.AddTail(bullet);
+	}
 
 	CView::OnLButtonDown(nFlags, point);
 }
@@ -347,6 +381,7 @@ void CPlaneWarView::OnLButtonDown(UINT nFlags, CPoint point)
 //鼠标右键监听
 void CPlaneWarView::OnRButtonUp(UINT /* nFlags */, CPoint point)
 {
+	// MyTODO
 }
 
 //生命周期
@@ -378,8 +413,8 @@ void CPlaneWarView::Restart()
 	if (meList.GetCount() > 0)
 		meList.RemoveAll();
 	//清空战机子弹链表
-	if (bombList.GetCount() > 0)
-		bombList.RemoveAll();
+	if (bulletList.GetCount() > 0)
+		bulletList.RemoveAll();
 	//清空敌机炸弹链表
 	if (ballList.GetCount() > 0)
 		ballList.RemoveAll();

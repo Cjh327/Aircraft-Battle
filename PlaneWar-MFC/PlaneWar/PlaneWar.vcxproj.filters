@@ -72,6 +72,9 @@
     <ClInclude Include="CEnemy.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="CBullet.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlaneWar.cpp">
@@ -120,6 +123,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="CEnemy.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CBullet.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

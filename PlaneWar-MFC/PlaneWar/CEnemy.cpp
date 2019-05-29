@@ -77,5 +77,5 @@ BOOL CEnemy::LoadImage()
 
 CRect CEnemy::GetRect()
 {
-	return CRect(mPoint, CPoint(mPoint.x + ENEMY_HEIGHT, mPoint.y + ENEMY_HEIGHT));
+	return CRect(mPoint, CPoint(mPoint.x + ENEMY_WIDTH, mPoint.y + ENEMY_HEIGHT));
 }
