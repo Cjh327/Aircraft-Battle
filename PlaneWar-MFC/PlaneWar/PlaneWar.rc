@@ -52,7 +52,7 @@ BEGIN
     "\r\n"
     "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
     "LANGUAGE 4, 2\r\n"
-    "#include ""res\\PlaneWar.rc2""  // 非 Microsoft Visual C++ 编辑的资源\r\n"
+    "#include ""res\\AircraftBattle.rc2""  // 非 Microsoft Visual C++ 编辑的资源\r\n"
     "#include ""l.CHS\\afxres.rc""      // 标准组件\r\n"
     "#include ""l.CHS\\afxprint.rc""    // 打印/打印预览资源\r\n"
     "#if !defined(_AFXDLL)\r\n"
@@ -73,7 +73,7 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDR_MAINFRAME           ICON                    "res\\PlaneWar.ico"
-IDR_PlaneWarTYPE        ICON                    "res\\PlaneWarDoc.ico"
+IDR_AircraftBattleTYPE        ICON                    "res\\PlaneWarDoc.ico"
 IDI_FILE_VIEW           ICON                    "res\\file_view.ico"
 IDI_FILE_VIEW_HC        ICON                    "res\\file_view_hc.ico"
 IDI_CLASS_VIEW          ICON                    "res\\class_view.ico"
@@ -238,7 +238,7 @@ BEGIN
     END
     POPUP "帮助(&H)"
     BEGIN
-        MENUITEM "关于 PlaneWar(&A)...",          ID_APP_ABOUT
+        MENUITEM "关于 AircraftBattle(&A)...",          ID_APP_ABOUT
     END
 END
 
@@ -293,7 +293,7 @@ END
 
 IDR_HELP_MENU MENU
 BEGIN
-    MENUITEM "关于 PlaneWar(&A)...",          ID_APP_ABOUT
+    MENUITEM "关于 AircraftBattle(&A)...",          ID_APP_ABOUT
 END
 
 IDR_THEME_MENU MENU
@@ -341,7 +341,7 @@ CAPTION "谢谢使用！！！"
 FONT 9, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,14,14,20,20
-    LTEXT           "PlaneWar，1.2 版",IDC_STATIC,42,12,114,8,SS_NOPREFIX
+    LTEXT           "AircraftBattle，1.2 版",IDC_STATIC,42,12,114,8,SS_NOPREFIX
     LTEXT           "Copyright (C) 2015",IDC_STATIC,42,24,114,8
     DEFPUSHBUTTON   "退出",IDOK,153,68,50,14,WS_GROUP
     LTEXT           "学院：信息科学与工程学院",IDC_STATIC,42,36,114,8
@@ -393,11 +393,11 @@ BEGIN
         BLOCK "080404B0"
         BEGIN
             VALUE "CompanyName", "TODO: <公司名>"
-            VALUE "FileDescription", "PlaneWar"
+            VALUE "FileDescription", "AircraftBattle"
             VALUE "FileVersion", "1.0.0.1"
-            VALUE "InternalName", "PlaneWar.exe"
+            VALUE "InternalName", "AircraftBattle.exe"
             VALUE "LegalCopyright", "TODO:  (C) <公司名>。  保留所有权利。"
-            VALUE "OriginalFilename", "PlaneWar.exe"
+            VALUE "OriginalFilename", "AircraftBattle.exe"
             VALUE "ProductName", "TODO: <产品名>"
             VALUE "ProductVersion", "1.0.0.1"
         END
@@ -492,12 +492,12 @@ END
 
 STRINGTABLE
 BEGIN
-    IDR_MAINFRAME           "PlaneWar\n\nPlaneWar\n\n\nPlaneWar.Document\nPlaneWar.Document"
+    IDR_MAINFRAME           "AircraftBattle\n\nAircraftBattle\n\n\nAircraftBattle.Document\nAircraftBattle.Document"
 END
 
 STRINGTABLE
 BEGIN
-    AFX_IDS_APP_TITLE       "PlaneWar"
+    AFX_IDS_APP_TITLE       "AircraftBattle"
     AFX_IDS_IDLEMESSAGE     "就绪"
 END
 

@@ -3,7 +3,7 @@
 #include "MainFrm.h"
 #include "ClassView.h"
 #include "Resource.h"
-#include "PlaneWar.h"
+#include "AircraftBattle.h"
 
 class CClassViewMenuButton : public CMFCToolBarMenuButton
 {

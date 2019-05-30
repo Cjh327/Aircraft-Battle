@@ -9,19 +9,22 @@
 CImageList CMyPlane::images;
 CImageList CMyPlane::images1;
 CImageList CMyPlane::imagespro;
-//设置战机初始位置
-CMyPlane::CMyPlane(BOOL isUpdate)
-{
-	this->index = isUpdate;
-	//战机的初始位置
+
+CMyPlane::CMyPlane(bool isUpdate, int _damage, int _hp) {
+	index = isUpdate ? 1 : 0;
 	mPoint.x = PLANE_X;
 	mPoint.y = PLANE_Y;
 	progress = 0;
+	damage = _damage;
+	hp = _hp;
 }
 
-CMyPlane::~CMyPlane(void)
-{
+CMyPlane::~CMyPlane(void) {}
+
+int CMyPlane::getDamage() const {
+	return damage;
 }
+
 //绘制战机
 BOOL CMyPlane::Draw(CDC* pDC, BOOL bPause, BOOL isProtect)
 {

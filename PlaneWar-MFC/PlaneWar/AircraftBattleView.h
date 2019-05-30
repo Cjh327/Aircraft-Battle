@@ -1,5 +1,5 @@
 
-// PlaneWarView.h : CPlaneWarView 类的接口
+// AircraftBattleView.h : CAircraftBattleView 类的接口
 //
 
 #pragma once
@@ -10,8 +10,6 @@
 #include "MyDialog.h"
 #include "RestartDialog.h"
 
-//默认战机命条数
-#define DEFAULT_LIFE_COUNT 3
 //默认关卡
 #define DEFAULT_PASS 1
 //两个战机子弹间隔
@@ -26,15 +24,15 @@
 
 
 //游戏视图窗口类
-class CPlaneWarView : public CView
+class CAircraftBattleView : public CView
 {
 protected: // 仅从序列化创建
-	CPlaneWarView();
-	DECLARE_DYNCREATE(CPlaneWarView)
+	CAircraftBattleView();
+	DECLARE_DYNCREATE(CAircraftBattleView)
 
 // 特性
 public:
-	CPlaneWarDoc* GetDocument() const;
+	CAircraftBattleDoc* GetDocument() const;
 
 	CScene	scene;//场景
 
@@ -51,11 +49,16 @@ public:
 
 	CRect rect;//窗口屏幕矩形
 
-	BOOL isStarted;//标记欢迎界面是否加载完成
+	bool isStarted; // 标记欢迎界面是否加载完成
+	bool isPause;   // 是否暂停
 	CImageList startIMG;
 
 // 操作
 public:
+	//获取战机速度
+	int GetSpeed();
+	//设置战机速度
+	void SetSpeed(int speed);
 	//游戏暂停
 	void Pause();
 	//游戏重新开始
@@ -72,7 +75,7 @@ protected:
 
 // 实现
 public:
-	virtual ~CPlaneWarView();
+	virtual ~CAircraftBattleView();
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
@@ -100,8 +103,8 @@ public:
 	//afx_msg void OnClose();
 };
 
-#ifndef _DEBUG  // PlaneWarView.cpp 中的调试版本
-inline CPlaneWarDoc* CPlaneWarView::GetDocument() const
-   { return reinterpret_cast<CPlaneWarDoc*>(m_pDocument); }
+#ifndef _DEBUG  // AircraftBattleView.cpp 中的调试版本
+inline CAircraftBattleDoc* CAircraftBattleView::GetDocument() const
+   { return reinterpret_cast<CAircraftBattleDoc*>(m_pDocument); }
 #endif
 

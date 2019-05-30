@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-#include "PlaneWar.h"
+#include "AircraftBattle.h"
 #include "MyDialog.h"
 #include "afxdialogex.h"
 

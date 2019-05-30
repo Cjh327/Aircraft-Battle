@@ -199,9 +199,9 @@
     <ClInclude Include="MyDialog.h" />
     <ClInclude Include="MyPlane.h" />
     <ClInclude Include="OutputWnd.h" />
-    <ClInclude Include="PlaneWar.h" />
-    <ClInclude Include="PlaneWarDoc.h" />
-    <ClInclude Include="PlaneWarView.h" />
+    <ClInclude Include="AircraftBattle.h" />
+    <ClInclude Include="AircraftBattleDoc.h" />
+    <ClInclude Include="AircraftBattleView.h" />
     <ClInclude Include="PropertiesWnd.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="RestartDialog.h" />
@@ -220,9 +220,9 @@
     <ClCompile Include="MyDialog.cpp" />
     <ClCompile Include="MyPlane.cpp" />
     <ClCompile Include="OutputWnd.cpp" />
-    <ClCompile Include="PlaneWar.cpp" />
-    <ClCompile Include="PlaneWarDoc.cpp" />
-    <ClCompile Include="PlaneWarView.cpp" />
+    <ClCompile Include="AircraftBattle.cpp" />
+    <ClCompile Include="AircraftBattleDoc.cpp" />
+    <ClCompile Include="AircraftBattleView.cpp" />
     <ClCompile Include="PropertiesWnd.cpp" />
     <ClCompile Include="RestartDialog.cpp" />
     <ClCompile Include="Scene.cpp" />

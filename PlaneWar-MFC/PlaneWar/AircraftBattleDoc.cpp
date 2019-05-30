@@ -1,15 +1,15 @@
 
-// PlaneWarDoc.cpp : CPlaneWarDoc 类的实现
+// AircraftBattleDoc.cpp : CAircraftBattleDoc 类的实现
 //
 
 #include "stdafx.h"
 // SHARED_HANDLERS 可以在实现预览、缩略图和搜索筛选器句柄的
 // ATL 项目中进行定义，并允许与该项目共享文档代码。
 #ifndef SHARED_HANDLERS
-#include "PlaneWar.h"
+#include "AircraftBattle.h"
 #endif
 
-#include "PlaneWarDoc.h"
+#include "AircraftBattleDoc.h"
 
 #include <propkey.h>
 
@@ -17,27 +17,27 @@
 #define new DEBUG_NEW
 #endif
 
-// CPlaneWarDoc
+// CAircraftBattleDoc
 
-IMPLEMENT_DYNCREATE(CPlaneWarDoc, CDocument)
+IMPLEMENT_DYNCREATE(CAircraftBattleDoc, CDocument)
 
-BEGIN_MESSAGE_MAP(CPlaneWarDoc, CDocument)
+BEGIN_MESSAGE_MAP(CAircraftBattleDoc, CDocument)
 END_MESSAGE_MAP()
 
 
-// CPlaneWarDoc 构造/析构
+// CAircraftBattleDoc 构造/析构
 
-CPlaneWarDoc::CPlaneWarDoc()
+CAircraftBattleDoc::CAircraftBattleDoc()
 {
 	// TODO: 在此添加一次性构造代码
 
 }
 
-CPlaneWarDoc::~CPlaneWarDoc()
+CAircraftBattleDoc::~CAircraftBattleDoc()
 {
 }
 
-BOOL CPlaneWarDoc::OnNewDocument()
+BOOL CAircraftBattleDoc::OnNewDocument()
 {
 	if (!CDocument::OnNewDocument())
 		return FALSE;
@@ -51,9 +51,9 @@ BOOL CPlaneWarDoc::OnNewDocument()
 
 
 
-// CPlaneWarDoc 序列化
+// CAircraftBattleDoc 序列化
 
-void CPlaneWarDoc::Serialize(CArchive& ar)
+void CAircraftBattleDoc::Serialize(CArchive& ar)
 {
 	if (ar.IsStoring())
 	{
@@ -68,7 +68,7 @@ void CPlaneWarDoc::Serialize(CArchive& ar)
 #ifdef SHARED_HANDLERS
 
 // 缩略图的支持
-void CPlaneWarDoc::OnDrawThumbnail(CDC& dc, LPRECT lprcBounds)
+void CAircraftBattleDoc::OnDrawThumbnail(CDC& dc, LPRECT lprcBounds)
 {
 	// 修改此代码以绘制文档数据
 	dc.FillSolidRect(lprcBounds, RGB(255, 255, 255));
@@ -89,7 +89,7 @@ void CPlaneWarDoc::OnDrawThumbnail(CDC& dc, LPRECT lprcBounds)
 }
 
 // 搜索处理程序的支持
-void CPlaneWarDoc::InitializeSearchContent()
+void CAircraftBattleDoc::InitializeSearchContent()
 {
 	CString strSearchContent;
 	// 从文档数据设置搜索内容。
@@ -99,7 +99,7 @@ void CPlaneWarDoc::InitializeSearchContent()
 	SetSearchContent(strSearchContent);
 }
 
-void CPlaneWarDoc::SetSearchContent(const CString& value)
+void CAircraftBattleDoc::SetSearchContent(const CString& value)
 {
 	if (value.IsEmpty())
 	{
@@ -119,19 +119,19 @@ void CPlaneWarDoc::SetSearchContent(const CString& value)
 
 #endif // SHARED_HANDLERS
 
-// CPlaneWarDoc 诊断
+// CAircraftBattleDoc 诊断
 
 #ifdef _DEBUG
-void CPlaneWarDoc::AssertValid() const
+void CAircraftBattleDoc::AssertValid() const
 {
 	CDocument::AssertValid();
 }
 
-void CPlaneWarDoc::Dump(CDumpContext& dc) const
+void CAircraftBattleDoc::Dump(CDumpContext& dc) const
 {
 	CDocument::Dump(dc);
 }
 #endif //_DEBUG
 
 
-// CPlaneWarDoc 命令
+// CAircraftBattleDoc 命令

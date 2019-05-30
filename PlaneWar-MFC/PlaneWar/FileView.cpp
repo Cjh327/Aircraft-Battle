@@ -3,7 +3,7 @@
 #include "mainfrm.h"
 #include "FileView.h"
 #include "Resource.h"
-#include "PlaneWar.h"
+#include "AircraftBattle.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

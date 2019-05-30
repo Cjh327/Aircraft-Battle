@@ -4,7 +4,7 @@
 
 CImageList CBullet::bulletImages; // ×Óµ¯Í¼Ïñ
 
-CBullet::CBullet(int x, int y, int _speed, int _damage) {
+CBullet::CBullet(int x, int y, int _damage, int _speed) {
 	mPoint.x = x;
 	mPoint.y = y;
 	speed = _speed;

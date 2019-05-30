@@ -3,7 +3,7 @@
 //
 
 #include "stdafx.h"
-#include "PlaneWar.h"
+#include "AircraftBattle.h"
 
 #include "MainFrm.h"
 

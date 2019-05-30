@@ -1,5 +1,5 @@
 
-// PlaneWarView.cpp : CPlaneWarView 类的实现
+// AircraftBattleView.cpp : CAircraftBattleView 类的实现
 //
 
 #include "stdafx.h"
@@ -10,11 +10,11 @@
 // SHARED_HANDLERS 可以在实现预览、缩略图和搜索筛选器句柄的
 // ATL 项目中进行定义，并允许与该项目共享文档代码。
 #ifndef SHARED_HANDLERS
-#include "PlaneWar.h"
+#include "AircraftBattle.h"
 #endif
 
-#include "PlaneWarDoc.h"
-#include "PlaneWarView.h"
+#include "AircraftBattleDoc.h"
+#include "AircraftBattleView.h"
 #include "CEnemy.h"
 #include "MyPlane.h"
 #include "CBullet.h"
@@ -24,15 +24,15 @@
 #endif
 
 
-// CPlaneWarView
+// CAircraftBattleView
 
-IMPLEMENT_DYNCREATE(CPlaneWarView, CView)
+IMPLEMENT_DYNCREATE(CAircraftBattleView, CView)
 
-BEGIN_MESSAGE_MAP(CPlaneWarView, CView)
+BEGIN_MESSAGE_MAP(CAircraftBattleView, CView)
 	// 标准打印命令
 	ON_COMMAND(ID_FILE_PRINT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
-	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CPlaneWarView::OnFilePrintPreview)
+	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CAircraftBattleView::OnFilePrintPreview)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
 	ON_WM_CREATE()
@@ -44,20 +44,20 @@ BEGIN_MESSAGE_MAP(CPlaneWarView, CView)
 	ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
-// CPlaneWarView 构造/析构
+// CAircraftBattleView 构造/析构
 
-CPlaneWarView::CPlaneWarView()
+CAircraftBattleView::CAircraftBattleView()
 {
 	//默认战机飞行速度、战机生命值、战机得分、关卡、是否过关、是否暂停
 
 	// TODO: 在此处添加构造代码
 }
 
-CPlaneWarView::~CPlaneWarView()
+CAircraftBattleView::~CAircraftBattleView()
 {
 }
 
-BOOL CPlaneWarView::PreCreateWindow(CREATESTRUCT& cs)
+BOOL CAircraftBattleView::PreCreateWindow(CREATESTRUCT& cs)
 {
 	// TODO: 在此处通过修改
 	//  CREATESTRUCT cs 来修改窗口类或样式
@@ -65,10 +65,10 @@ BOOL CPlaneWarView::PreCreateWindow(CREATESTRUCT& cs)
 	return CView::PreCreateWindow(cs);
 }
 
-// CPlaneWarView 绘制
-void CPlaneWarView::OnDraw(CDC* pDC)
+// CAircraftBattleView 绘制
+void CAircraftBattleView::OnDraw(CDC* pDC)
 {
-	CPlaneWarDoc* pDoc = GetDocument();
+	CAircraftBattleDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
@@ -76,73 +76,63 @@ void CPlaneWarView::OnDraw(CDC* pDC)
 	// TODO: 在此处为本机数据添加绘制代码
 }
 
-// CPlaneWarView 打印
+// CAircraftBattleView 打印
 
-void CPlaneWarView::OnFilePrintPreview()
+void CAircraftBattleView::OnFilePrintPreview()
 {
 #ifndef SHARED_HANDLERS
 	AFXPrintPreview(this);
 #endif
 }
 
-BOOL CPlaneWarView::OnPreparePrinting(CPrintInfo* pInfo)
+BOOL CAircraftBattleView::OnPreparePrinting(CPrintInfo* pInfo)
 {
 	// 默认准备
 	return DoPreparePrinting(pInfo);
 }
 
-void CPlaneWarView::OnBeginPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
+void CAircraftBattleView::OnBeginPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
 {
 	// TODO: 添加额外的打印前进行的初始化过程
 }
 
-void CPlaneWarView::OnEndPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
+void CAircraftBattleView::OnEndPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
 {
 	// TODO: 添加打印后进行的清理过程
 }
 
-void CPlaneWarView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
+void CAircraftBattleView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
 {
 #ifndef SHARED_HANDLERS
 	theApp.GetContextMenuManager()->ShowPopupMenu(IDR_POPUP_EDIT, point.x, point.y, this, TRUE);
 #endif
 }
 
-// CPlaneWarView 诊断
+// CAircraftBattleView 诊断
 
 #ifdef _DEBUG
-void CPlaneWarView::AssertValid() const
+void CAircraftBattleView::AssertValid() const
 {
 	CView::AssertValid();
 }
 
-void CPlaneWarView::Dump(CDumpContext& dc) const
+void CAircraftBattleView::Dump(CDumpContext& dc) const
 {
 	CView::Dump(dc);
 }
 
-CPlaneWarDoc* CPlaneWarView::GetDocument() const // 非调试版本是内联的
+CAircraftBattleDoc* CAircraftBattleView::GetDocument() const // 非调试版本是内联的
 {
-	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CPlaneWarDoc)));
-	return (CPlaneWarDoc*)m_pDocument;
+	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CAircraftBattleDoc)));
+	return (CAircraftBattleDoc*)m_pDocument;
 }
 #endif //_DEBUG
 
 //重写实现
-//获得速度
-int CPlaneWarView::GetSpeed()
-{
-	return this->speed;
-}
-//设置速度
-void CPlaneWarView::SetSpeed(int speed)
-{
-	this->speed = speed;
-}
 
-// CPlaneWarView 消息处理程序
+// CAircraftBattleView 消息处理程序
 //视图创建监听
-int CPlaneWarView::OnCreate(LPCREATESTRUCT lpCreateStruct)
+int CAircraftBattleView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CView::OnCreate(lpCreateStruct) == -1)
 		return -1;
@@ -170,24 +160,8 @@ int CPlaneWarView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	//参数初始化
 	myplane = new CMyPlane(FALSE);
-	isBoss = FALSE;
-	speed = DEFAULT_SPEED;
-	myLife = DEFAULT_LIFE;
-	lifeNum = DEFAULT_LIFE_COUNT;
-	lifeCount = 1;
-	passScore = 0;
-	myScore = 0;
-	bossLoaded = TRUE;
-	passNum = DEFAULT_PASS;
-	isPass = 0;
-	isPause = FALSE;
-	magicCount = 0;
-	bloodExist = FALSE;
-	isProtect = FALSE;
-	isUpdate = FALSE;
-	test = FALSE;
-	isStop = FALSE;
-	isStarted = FALSE;
+	isStarted = false;
+	isPause = false;
 
 	SetTimer(4, 40, NULL);//背景滚动定时器
 	SetMyTimer();
@@ -195,7 +169,7 @@ int CPlaneWarView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 }
 
 //计时器监听
-void CPlaneWarView::OnTimer(UINT_PTR nIDEvent)
+void CAircraftBattleView::OnTimer(UINT_PTR nIDEvent)
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
 
@@ -262,30 +236,30 @@ void CPlaneWarView::OnTimer(UINT_PTR nIDEvent)
 	}
 	else {
 		// 游戏界面
-		scene.StickScene(&cdc, passNum, rect);
+		scene.StickScene(&cdc, 1, rect);
 		if (nIDEvent == 4) {
 			//滚动背景
 			scene.MoveBg();
 		}
-		//刷新显示战机
+		// 刷新显示战机
 		if (myplane != NULL) {
-			myplane->Draw(&cdc, FALSE, isProtect);
+			myplane->Draw(&cdc, FALSE, FALSE);
 		}
-		//随机添加敌机,敌机随机发射炸弹，此时敌机速度与数量和关卡有关
-		if (myplane != NULL && isPause == 0 && isBoss == FALSE) {
-			//敌机产生定时器触发
+		// 随机添加敌机,敌机随机发射炸弹，此时敌机速度与数量和关卡有关
+		if (myplane != NULL && !isPause) {
+			// 敌机产生定时器触发
 			if (nIDEvent == 2) {
 				CEnemy* enemy = new CEnemy(rect.right, rect.bottom);
-				enemyList.AddTail(enemy);//随机产生敌机
+				enemyList.AddTail(enemy);	//随机产生敌机
 			}
 		}
-		//超出边界的敌机进行销毁
+		// 超出边界的敌机进行销毁
 		POSITION stPos = NULL, tPos = NULL;
 		stPos = enemyList.GetHeadPosition();
 		while (stPos != NULL) {
 			tPos = stPos;
 			CEnemy* enemy = (CEnemy*)enemyList.GetNext(stPos);
-			//判断敌机是否出界
+			// 判断敌机是否出界
 			if (enemy->GetPoint().x<rect.left || enemy->GetPoint().x>rect.right
 				|| enemy->GetPoint().y<rect.top || enemy->GetPoint().y>rect.bottom) {
 				enemyList.RemoveAt(tPos);
@@ -293,7 +267,7 @@ void CPlaneWarView::OnTimer(UINT_PTR nIDEvent)
 			}
 			else {
 				//没出界，绘制
-				enemy->Draw(&cdc, passNum, FALSE);
+				enemy->Draw(&cdc, 1, FALSE);
 			}
 		}
 
@@ -353,7 +327,7 @@ void CPlaneWarView::OnTimer(UINT_PTR nIDEvent)
 	CView::OnTimer(nIDEvent);
 }
 //键盘按下监听
-void CPlaneWarView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+void CAircraftBattleView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	//按空格进入游戏
 	if (isStarted == FALSE) {
@@ -364,7 +338,7 @@ void CPlaneWarView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	else {
 		if (myplane != NULL && GetKeyState(VK_SPACE) < 0) {
 			// 按空格键发射子弹
-			CBullet* bullet = new CBullet(myplane->GetPoint().x + PLANE_WIDTH / 2 - BULLET_WIDTH / 2, myplane->GetPoint().y);
+			CBullet* bullet = new CBullet(myplane->GetPoint().x + PLANE_WIDTH / 2 - BULLET_WIDTH / 2, myplane->GetPoint().y, myplane->getDamage());
 			bulletList.AddTail(bullet);
 		}
 	}
@@ -372,7 +346,7 @@ void CPlaneWarView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 }
 
 //鼠标移动监听，控制战机位置
-void CPlaneWarView::OnMouseMove(UINT nFlags, CPoint point)
+void CAircraftBattleView::OnMouseMove(UINT nFlags, CPoint point)
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
 
@@ -384,7 +358,7 @@ void CPlaneWarView::OnMouseMove(UINT nFlags, CPoint point)
 }
 
 //按下鼠标左键监听
-void CPlaneWarView::OnLButtonDown(UINT nFlags, CPoint point)
+void CAircraftBattleView::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
 
@@ -393,7 +367,7 @@ void CPlaneWarView::OnLButtonDown(UINT nFlags, CPoint point)
 	}
 	else if (myplane != NULL) {
 		// 按鼠标左键发射子弹
-		CBullet* bullet = new CBullet(myplane->GetPoint().x + PLANE_WIDTH / 2 - BULLET_WIDTH / 2, myplane->GetPoint().y);
+		CBullet* bullet = new CBullet(myplane->GetPoint().x + PLANE_WIDTH / 2 - BULLET_WIDTH / 2, myplane->GetPoint().y, myplane->getDamage());
 		bulletList.AddTail(bullet);
 	}
 
@@ -401,7 +375,7 @@ void CPlaneWarView::OnLButtonDown(UINT nFlags, CPoint point)
 }
 
 //鼠标右键监听
-void CPlaneWarView::OnRButtonUp(UINT /* nFlags */, CPoint point)
+void CAircraftBattleView::OnRButtonUp(UINT /* nFlags */, CPoint point)
 {
 	if (isStarted == TRUE && myplane != NULL) {
 		// 按鼠标右键发射炮弹
@@ -412,7 +386,7 @@ void CPlaneWarView::OnRButtonUp(UINT /* nFlags */, CPoint point)
 //生命周期
 
 //窗口销毁
-void CPlaneWarView::OnDestroy()
+void CAircraftBattleView::OnDestroy()
 {
 	// 销毁指针资源
 	if (myplane != NULL)
@@ -425,7 +399,7 @@ void CPlaneWarView::OnDestroy()
 }
 
 //游戏重新开始
-void CPlaneWarView::Restart()
+void CAircraftBattleView::Restart()
 {
 	// TODO: 在此处添加游戏重新开始初始化参数
 	//战机重新加载
@@ -451,27 +425,13 @@ void CPlaneWarView::Restart()
 		bloodList.RemoveAll();
 
 	//参数重新初始化
-	myLife = DEFAULT_LIFE;
-	lifeNum = DEFAULT_LIFE_COUNT;
-	myScore = 0;
-	passScore = 0;
-	passNum = DEFAULT_PASS;
-	isPass = 0;
-	isPause = 0;
-	lifeCount = 1;
-	magicCount = 0;
-	bloodExist = FALSE;
-	isBoss = FALSE;
-	bossLoaded = TRUE;
-	isProtect = FALSE;
-	isUpdate = FALSE;
-	test = FALSE;
+	isPause = false;
 	//isStarted = FALSE;
 	SetMyTimer();
 }
 
 //游戏暂停
-void CPlaneWarView::Pause()
+void CAircraftBattleView::Pause()
 {
 	// TODO: 在此处添加游戏暂停操作
 	isPause = TRUE;
@@ -479,7 +439,7 @@ void CPlaneWarView::Pause()
 }
 
 // 生命值归零，游戏结束
-void CPlaneWarView::gameOver(CDC* pDC, CDC& cdc, CBitmap* cacheBitmap)
+void CAircraftBattleView::gameOver(CDC* pDC, CDC& cdc, CBitmap* cacheBitmap)
 {
 	//结束游戏界面
 	//释放计时器
@@ -489,7 +449,6 @@ void CPlaneWarView::gameOver(CDC* pDC, CDC& cdc, CBitmap* cacheBitmap)
 	//KillTimer(4);
 	KillTimer(5);
 	//计算最后得分
-	myScore += passScore;
 	//播放游戏结束音乐
 	PlaySound((LPCTSTR)IDR_WAV_GAMEOVER, AfxGetInstanceHandle(), SND_RESOURCE | SND_ASYNC);
 	//清屏
@@ -499,20 +458,20 @@ void CPlaneWarView::gameOver(CDC* pDC, CDC& cdc, CBitmap* cacheBitmap)
 	cdc.SelectObject(cacheBitmap);
 	//内存中承载临时图像的缓冲位图
 	delete tCache;
-	isStop = FLAG_STOP;
+	//isStop = FLAG_STOP;
 }
 
 //设置计时器
-void CPlaneWarView::SetMyTimer()
+void CAircraftBattleView::SetMyTimer()
 {
 	SetTimer(1, 17, NULL);//刷新界面定时器
-	SetTimer(2, 400 - passNum * 30, NULL);//产生敌机定时器
-	SetTimer(3, 2000 - passNum * 100, NULL);//产生敌机炮弹频率
+	SetTimer(2, 400 - 1 * 30, NULL);//产生敌机定时器
+	SetTimer(3, 2000 - 1 * 100, NULL);//产生敌机炮弹频率
 
 	SetTimer(5, 2000, NULL);//控制魔法值变化频率
 }
 
-//void CPlaneWarView::OnClose()
+//void CAircraftBattleView::OnClose()
 //{
 //	isPause = TRUE;
 //	// TODO: 在此添加消息处理程序代码和/或调用默认值

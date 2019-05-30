@@ -1,5 +1,5 @@
 
-// PlaneWar.h : PlaneWar 应用程序的主头文件
+// AircraftBattle.h : AircraftBattle 应用程序的主头文件
 //
 #pragma once
 
@@ -10,14 +10,14 @@
 #include "resource.h"       // 主符号
 
 
-// CPlaneWarApp:
-// 有关此类的实现，请参阅 PlaneWar.cpp
+// CAircraftBattleApp:
+// 有关此类的实现，请参阅 AircraftBattle.cpp
 //
 
-class CPlaneWarApp : public CWinAppEx
+class CAircraftBattleApp : public CWinAppEx
 {
 public:
-	CPlaneWarApp();
+	CAircraftBattleApp();
 
 
 // 重写
@@ -37,4 +37,4 @@ public:
 	DECLARE_MESSAGE_MAP()
 };
 
-extern CPlaneWarApp theApp;
+extern CAircraftBattleApp theApp;

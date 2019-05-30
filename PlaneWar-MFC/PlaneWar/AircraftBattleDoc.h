@@ -1,16 +1,16 @@
 
-// PlaneWarDoc.h : CPlaneWarDoc 类的接口
+// AircraftBattleDoc.h : CAircraftBattleDoc 类的接口
 //
 
 
 #pragma once
 
 
-class CPlaneWarDoc : public CDocument
+class CAircraftBattleDoc : public CDocument
 {
 protected: // 仅从序列化创建
-	CPlaneWarDoc();
-	DECLARE_DYNCREATE(CPlaneWarDoc)
+	CAircraftBattleDoc();
+	DECLARE_DYNCREATE(CAircraftBattleDoc)
 
 // 特性
 public:
@@ -29,7 +29,7 @@ public:
 
 // 实现
 public:
-	virtual ~CPlaneWarDoc();
+	virtual ~CAircraftBattleDoc();
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;

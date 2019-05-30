@@ -1,25 +1,25 @@
 
-// PlaneWar.cpp : 定义应用程序的类行为。
+// AircraftBattle.cpp : 定义应用程序的类行为。
 //
 
 #include "stdafx.h"
 #include "afxwinappex.h"
 #include "afxdialogex.h"
-#include "PlaneWar.h"
+#include "AircraftBattle.h"
 #include "MainFrm.h"
 
-#include "PlaneWarDoc.h"
-#include "PlaneWarView.h"
+#include "AircraftBattleDoc.h"
+#include "AircraftBattleView.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
 
-// CPlaneWarApp
+// CAircraftBattleApp
 
-BEGIN_MESSAGE_MAP(CPlaneWarApp, CWinAppEx)
-	ON_COMMAND(ID_APP_ABOUT, &CPlaneWarApp::OnAppAbout)
+BEGIN_MESSAGE_MAP(CAircraftBattleApp, CWinAppEx)
+	ON_COMMAND(ID_APP_ABOUT, &CAircraftBattleApp::OnAppAbout)
 	// 基于文件的标准文档命令
 	ON_COMMAND(ID_FILE_NEW, &CWinAppEx::OnFileNew)
 	ON_COMMAND(ID_FILE_OPEN, &CWinAppEx::OnFileOpen)
@@ -28,9 +28,9 @@ BEGIN_MESSAGE_MAP(CPlaneWarApp, CWinAppEx)
 END_MESSAGE_MAP()
 
 
-// CPlaneWarApp 构造
+// CAircraftBattleApp 构造
 
-CPlaneWarApp::CPlaneWarApp()
+CAircraftBattleApp::CAircraftBattleApp()
 {
 	m_bHiColorIcons = TRUE;
 
@@ -45,20 +45,20 @@ CPlaneWarApp::CPlaneWarApp()
 
 	// TODO: 将以下应用程序 ID 字符串替换为唯一的 ID 字符串；建议的字符串格式
 	//为 CompanyName.ProductName.SubProduct.VersionInformation
-	SetAppID(_T("PlaneWar.AppID.NoVersion"));
+	SetAppID(_T("AircraftBattle.AppID.NoVersion"));
 
 	// TODO: 在此处添加构造代码，
 	// 将所有重要的初始化放置在 InitInstance 中
 }
 
-// 唯一的一个 CPlaneWarApp 对象
+// 唯一的一个 CAircraftBattleApp 对象
 
-CPlaneWarApp theApp;
+CAircraftBattleApp theApp;
 
 
-// CPlaneWarApp 初始化
+// CAircraftBattleApp 初始化
 
-BOOL CPlaneWarApp::InitInstance()
+BOOL CAircraftBattleApp::InitInstance()
 {
 	// 如果一个运行在 Windows XP 上的应用程序清单指定要
 	// 使用 ComCtl32.dll 版本 6 或更高版本来启用可视化方式，
@@ -113,9 +113,9 @@ BOOL CPlaneWarApp::InitInstance()
 	CSingleDocTemplate* pDocTemplate;
 	pDocTemplate = new CSingleDocTemplate(
 		IDR_MAINFRAME,
-		RUNTIME_CLASS(CPlaneWarDoc),
+		RUNTIME_CLASS(CAircraftBattleDoc),
 		RUNTIME_CLASS(CMainFrame),       // 主 SDI 框架窗口
-		RUNTIME_CLASS(CPlaneWarView));
+		RUNTIME_CLASS(CAircraftBattleView));
 	if (!pDocTemplate)
 		return FALSE;
 	AddDocTemplate(pDocTemplate);
@@ -141,7 +141,7 @@ BOOL CPlaneWarApp::InitInstance()
 	return TRUE;
 }
 
-int CPlaneWarApp::ExitInstance()
+int CAircraftBattleApp::ExitInstance()
 {
 	//TODO: 处理可能已添加的附加资源
 	AfxOleTerm(FALSE);
@@ -149,7 +149,7 @@ int CPlaneWarApp::ExitInstance()
 	return CWinAppEx::ExitInstance();
 }
 
-// CPlaneWarApp 消息处理程序
+// CAircraftBattleApp 消息处理程序
 
 
 // 用于应用程序“关于”菜单项的 CAboutDlg 对话框
@@ -188,15 +188,15 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 // 用于运行对话框的应用程序命令
-void CPlaneWarApp::OnAppAbout()
+void CAircraftBattleApp::OnAppAbout()
 {
 	CAboutDlg aboutDlg;
 	aboutDlg.DoModal();
 }
 
-// CPlaneWarApp 自定义加载/保存方法
+// CAircraftBattleApp 自定义加载/保存方法
 
-void CPlaneWarApp::PreLoadState()
+void CAircraftBattleApp::PreLoadState()
 {
 	BOOL bNameValid;
 	CString strName;
@@ -208,12 +208,12 @@ void CPlaneWarApp::PreLoadState()
 	GetContextMenuManager()->AddMenu(strName, IDR_POPUP_EXPLORER);
 }
 
-void CPlaneWarApp::LoadCustomState()
+void CAircraftBattleApp::LoadCustomState()
 {
 }
 
-void CPlaneWarApp::SaveCustomState()
+void CAircraftBattleApp::SaveCustomState()
 {
 }
 
-// CPlaneWarApp 消息处理程序
+// CAircraftBattleApp 消息处理程序
