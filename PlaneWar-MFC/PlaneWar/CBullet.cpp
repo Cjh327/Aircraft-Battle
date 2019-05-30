@@ -4,14 +4,19 @@
 
 CImageList CBullet::bulletImages; // ×Óµ¯Í¼Ïñ
 
-CBullet::CBullet(int x, int y, int _speed) {
+CBullet::CBullet(int x, int y, int _speed, int _damage) {
 	mPoint.x = x;
 	mPoint.y = y;
 	speed = _speed;
+	damage = _damage;
 }
 
 int CBullet::getSpeed() const {
 	return speed;
+}
+
+int CBullet::getDamage() const {
+	return damage;
 }
 
 CRect CBullet::GetRect() {

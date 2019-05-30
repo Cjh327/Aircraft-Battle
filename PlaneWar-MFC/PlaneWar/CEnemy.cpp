@@ -3,14 +3,6 @@
 #include "resource.h"
 
 
-//敌机的高度
-#define ENEMY_HEIGHT 90
-//敌机的宽度
-#define ENEMY_WIDTH 120
-//敌机飞行速度
-#define ENEMY_SPEED 3
-//敌机血量
-#define ENEMY_HP 2
 
 
 //静态图像列表
@@ -23,6 +15,10 @@ CEnemy::CEnemy(int window_width, int window_height) : hp(ENEMY_HP), speed(ENEMY_
 
 int CEnemy::getHp() const {
 	return hp;
+}
+
+void CEnemy::decreaseHp(int x) {
+	hp = max(0, hp - x);
 }
 
 bool CEnemy::isAlive() const {

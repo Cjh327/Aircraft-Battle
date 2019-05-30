@@ -272,8 +272,7 @@ void CPlaneWarView::OnTimer(UINT_PTR nIDEvent)
 			myplane->Draw(&cdc, FALSE, isProtect);
 		}
 		//随机添加敌机,敌机随机发射炸弹，此时敌机速度与数量和关卡有关
-		if (myplane != NULL && isPause == 0 && isBoss == FALSE)
-		{
+		if (myplane != NULL && isPause == 0 && isBoss == FALSE) {
 			//敌机产生定时器触发
 			if (nIDEvent == 2) {
 				CEnemy* enemy = new CEnemy(rect.right, rect.bottom);
@@ -283,19 +282,16 @@ void CPlaneWarView::OnTimer(UINT_PTR nIDEvent)
 		//超出边界的敌机进行销毁
 		POSITION stPos = NULL, tPos = NULL;
 		stPos = enemyList.GetHeadPosition();
-		while (stPos != NULL)
-		{
+		while (stPos != NULL) {
 			tPos = stPos;
 			CEnemy* enemy = (CEnemy*)enemyList.GetNext(stPos);
 			//判断敌机是否出界
 			if (enemy->GetPoint().x<rect.left || enemy->GetPoint().x>rect.right
-				|| enemy->GetPoint().y<rect.top || enemy->GetPoint().y>rect.bottom)
-			{
+				|| enemy->GetPoint().y<rect.top || enemy->GetPoint().y>rect.bottom) {
 				enemyList.RemoveAt(tPos);
 				delete enemy;
 			}
-			else
-			{
+			else {
 				//没出界，绘制
 				enemy->Draw(&cdc, passNum, FALSE);
 			}
@@ -307,28 +303,54 @@ void CPlaneWarView::OnTimer(UINT_PTR nIDEvent)
 		while (stPos != NULL) {
 			tPos = stPos;
 			CBullet* bullet = (CBullet*)bulletList.GetNext(stPos);
-			//判断敌机是否出界
-			if (bullet->GetPoint().x<rect.left || bullet->GetPoint().x>rect.right
-				|| bullet->GetPoint().y<rect.top || bullet->GetPoint().y>rect.bottom) {
+			// 判断敌机是否出界
+			if (bullet->GetPoint().x < rect.left || bullet->GetPoint().x > rect.right
+				|| bullet->GetPoint().y < rect.top || bullet->GetPoint().y > rect.bottom) {
 				bulletList.RemoveAt(tPos);
 				delete bullet;
 			}
 			else {
-				//没出界，绘制
+				// 没出界，绘制
 				bullet->Draw(&cdc, FALSE);
 			}
 		}
 
-		//将二级缓冲cdc中的数据推送到一级级缓冲pDC中，即输出到屏幕中
-		pDC->BitBlt(0, 0, rect.Width(), rect.Height(), &cdc, 0, 0, SRCCOPY);
-		//释放二级cdc
-		cdc.DeleteDC();
-		//释放缓冲位图
-		cacheBitmap->DeleteObject();
-		//释放一级pDC
-		ReleaseDC(pDC);
-		CView::OnTimer(nIDEvent);
+		// 子弹打中敌机
+		POSITION bulletPos = bulletList.GetHeadPosition(), tmpBulletPos = bulletPos;
+		while (bulletPos != NULL) {
+			tmpBulletPos = bulletPos;
+			CBullet* bullet = (CBullet*)bulletList.GetNext(bulletPos);
+			POSITION enemyPos = enemyList.GetHeadPosition(), tmpEnemtPos = enemyPos;
+			while (enemyPos != NULL) {
+				tmpEnemtPos = enemyPos;
+				CEnemy* enemy = (CEnemy*)enemyList.GetNext(enemyPos);
+				CRect tmpRect;
+				if (tmpRect.IntersectRect(&(bullet->GetRect()), &(enemy->GetRect()))) {
+					// 子弹和敌机区域有重合，即子弹打中敌机
+					bulletList.RemoveAt(tmpBulletPos);
+					enemy->decreaseHp(bullet->getDamage());
+					delete bullet;
+					bullet = NULL;
+					if (!enemy->isAlive()) {
+						enemyList.RemoveAt(tmpEnemtPos);
+						delete enemy;
+						enemy = NULL;
+					}
+					break;
+				}
+			}
+		}
 	}
+
+	//将二级缓冲cdc中的数据推送到一级级缓冲pDC中，即输出到屏幕中
+	pDC->BitBlt(0, 0, rect.Width(), rect.Height(), &cdc, 0, 0, SRCCOPY);
+	//释放二级cdc
+	cdc.DeleteDC();
+	//释放缓冲位图
+	cacheBitmap->DeleteObject();
+	//释放一级pDC
+	ReleaseDC(pDC);
+	CView::OnTimer(nIDEvent);
 }
 //键盘按下监听
 void CPlaneWarView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)

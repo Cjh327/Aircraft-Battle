@@ -10,17 +10,22 @@
 //子弹飞行速度
 #define BULLET_SPEED 30
 
+// 子弹杀伤力
+#define BULLET_DAMAGE 1
+
 class CBullet :	public CGameObject
 {
 private:
 	int speed;
+	int damage;
 
 protected:
 	static CImageList bulletImages; // 子弹图像
 	
 public:
-	CBullet(int x = 0, int y = 0, int _speed = BULLET_SPEED);
+	CBullet(int x = 0, int y = 0, int _speed = BULLET_SPEED, int _damage = BULLET_DAMAGE);
 	int getSpeed() const;
+	int getDamage() const;
 
 	CRect GetRect();
 
