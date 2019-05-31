@@ -1,17 +1,8 @@
 #include "StdAfx.h"
 #include "Scene.h"
-//场景类实现
-CScene::CScene(void)
-{
-}
-
-CScene::~CScene(void)
-{
-}
 
 //初始化场景
-bool CScene::InitScene()
-{
+bool CScene::InitScene() {
 	//加载开始图片
 	this->images[0].Load(_T("image\\start.bmp"));
 	CString str;
@@ -24,7 +15,7 @@ bool CScene::InitScene()
 	}
 
 	//开始为真, 背景起始坐标为0
-	this->isStart = TRUE;
+	this->isStart = true;
 	this->beginY = 0;
 
 	//播放背景音乐
@@ -34,8 +25,7 @@ bool CScene::InitScene()
 }
 
 //绘制场景
-void CScene::StickScene(CDC* pDC,int index, CRect rClient)
-{
+void CScene::StickScene(CDC* pDC, int index, CRect rClient) {
 	if (index == -1)
 		index = 0;
 	else
@@ -44,12 +34,9 @@ void CScene::StickScene(CDC* pDC,int index, CRect rClient)
 	pDC->SetStretchBltMode(COLORONCOLOR);
 
 	//如果到了下边界, 回到起点
-	if (beginY >= rClient.Height())
-	{
+	if (beginY >= rClient.Height())	{
 		beginY = 0;
-
-		if (isStart)
-			isStart = FALSE;
+		isStart = false;
 	}
 
 	//客户区高度
@@ -59,13 +46,11 @@ void CScene::StickScene(CDC* pDC,int index, CRect rClient)
 	rClient.top = beginY;
 
 	//如果是开始就绘制起始背景
-	if (isStart)
-	{
+	if (isStart) {
 		this->images[index].StretchBlt(*pDC, rClient, SRCCOPY);
 	}
 	//将下一张背景作为起始背景
-	else
-	{
+	else {
 		this->images[index].StretchBlt(*pDC, rClient, SRCCOPY);
 	}
 
@@ -76,16 +61,14 @@ void CScene::StickScene(CDC* pDC,int index, CRect rClient)
 }
 
 //移动背景
-void CScene::MoveBg()
-{
+void CScene::MoveBg() {
 	//移动背景
 	beginY += 1;
 }
 
 //释放内存资源
-void CScene::ReleaseScene()
-{
-	for (int i = 0; i <8; i++)
+void CScene::ReleaseScene() {
+	for (int i = 0; i < 8; i++)
 		if (!images[i].IsNull())
 			images[i].Destroy();
 
