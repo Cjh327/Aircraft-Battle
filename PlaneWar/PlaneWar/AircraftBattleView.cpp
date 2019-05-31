@@ -294,9 +294,9 @@ void CAircraftBattleView::OnTimer(UINT_PTR nIDEvent)
 		while (bulletPos != NULL) {
 			tmpBulletPos = bulletPos;
 			CBullet* bullet = (CBullet*)bulletList.GetNext(bulletPos);
-			POSITION enemyPos = enemyList.GetHeadPosition(), tmpEnemtPos = enemyPos;
+			POSITION enemyPos = enemyList.GetHeadPosition(), tmpEnemyPos = enemyPos;
 			while (enemyPos != NULL) {
-				tmpEnemtPos = enemyPos;
+				tmpEnemyPos = enemyPos;
 				CEnemy* enemy = (CEnemy*)enemyList.GetNext(enemyPos);
 				CRect tmpRect;
 				if (tmpRect.IntersectRect(&(bullet->GetRect()), &(enemy->GetRect()))) {
@@ -306,12 +306,28 @@ void CAircraftBattleView::OnTimer(UINT_PTR nIDEvent)
 					delete bullet;
 					bullet = NULL;
 					if (!enemy->isAlive()) {
-						enemyList.RemoveAt(tmpEnemtPos);
+						enemyList.RemoveAt(tmpEnemyPos);
 						delete enemy;
 						enemy = NULL;
 					}
 					break;
 				}
+			}
+		}
+
+		// 战机撞到敌机
+		POSITION enemyPos = enemyList.GetHeadPosition(), tmpEnemyPos = enemyPos;
+		while (enemyPos != NULL) {
+			tmpEnemyPos = enemyPos;
+			CEnemy* enemy = (CEnemy*)enemyList.GetNext(enemyPos);
+			CRect tmpRect;
+			if (tmpRect.IntersectRect(&(myplane->GetRect()), &(enemy->GetRect()))) {
+				// 战机和敌机区域有重合，即战机撞到敌机
+				myplane->decreaseHp(10 * enemy->getDamage());
+				enemyList.RemoveAt(tmpEnemyPos);
+				delete enemy;
+				enemy = NULL;
+				break;
 			}
 		}
 	}
@@ -326,13 +342,14 @@ void CAircraftBattleView::OnTimer(UINT_PTR nIDEvent)
 	ReleaseDC(pDC);
 	CView::OnTimer(nIDEvent);
 }
+
 //键盘按下监听
 void CAircraftBattleView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	//按空格进入游戏
-	if (isStarted == FALSE) {
+	if (isStarted == false) {
 		if (GetKeyState(VK_SPACE) < 0) {
-			isStarted = TRUE;
+			isStarted = true;
 		}
 	}
 	else {

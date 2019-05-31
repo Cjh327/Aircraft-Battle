@@ -48,9 +48,6 @@ BOOL CAircraftBattleDoc::OnNewDocument()
 	return TRUE;
 }
 
-
-
-
 // CAircraftBattleDoc –Ú¡–ªØ
 
 void CAircraftBattleDoc::Serialize(CArchive& ar)

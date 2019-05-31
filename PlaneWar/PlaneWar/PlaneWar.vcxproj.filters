@@ -75,6 +75,9 @@
     <ClInclude Include="AircraftBattleDoc.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="CPlane.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -126,6 +129,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="AircraftBattleView.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlane.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

@@ -10,20 +10,15 @@ CImageList CMyPlane::images;
 CImageList CMyPlane::images1;
 CImageList CMyPlane::imagespro;
 
-CMyPlane::CMyPlane(bool isUpdate, int _damage, int _hp) {
+CMyPlane::CMyPlane(bool isUpdate): CPlane(PLANE_HP, PLANE_DAMAGE, PLANE_SPEED) {
 	index = isUpdate ? 1 : 0;
 	mPoint.x = PLANE_X;
 	mPoint.y = PLANE_Y;
 	progress = 0;
-	damage = _damage;
-	hp = _hp;
 }
 
 CMyPlane::~CMyPlane(void) {}
 
-int CMyPlane::getDamage() const {
-	return damage;
-}
 
 //»æÖÆÕ½»ú
 BOOL CMyPlane::Draw(CDC* pDC, BOOL bPause, BOOL isProtect)

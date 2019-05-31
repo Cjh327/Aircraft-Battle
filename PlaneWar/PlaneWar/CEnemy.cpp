@@ -2,36 +2,16 @@
 #include "CEnemy.h"
 #include "resource.h"
 
-
-
-
 //静态图像列表
 CImageList CEnemy::enemyImages;
 
-CEnemy::CEnemy(int window_width, int window_height) : hp(ENEMY_HP), speed(ENEMY_SPEED) {
+CEnemy::CEnemy(int window_width, int window_height) : CPlane(ENEMY_HP, ENEMY_DAMAGE, ENEMY_SPEED) {
 	mPoint.x = rand() % window_width;
 	mPoint.y = 0;
 }
 
-int CEnemy::getHp() const {
-	return hp;
-}
-
-void CEnemy::decreaseHp(int x) {
-	hp = max(0, hp - x);
-}
-
-bool CEnemy::isAlive() const {
-	return hp > 0;
-}
-
-void CEnemy::setHp(int _hp) {
-	hp = _hp;
-}
-
 //绘制当前敌机位置
-BOOL CEnemy::Draw(CDC* pDC, int passNum, BOOL bPause)
-{
+BOOL CEnemy::Draw(CDC* pDC, int passNum, BOOL bPause) {
 	if (bPause == 0) {
 		int index = passNum % 5;
 		//敌机位置随机变化,只改变纵坐标，随机数为了让敌机不匀速飞行
@@ -43,8 +23,7 @@ BOOL CEnemy::Draw(CDC* pDC, int passNum, BOOL bPause)
 	else return FALSE;
 }
 
-BOOL CEnemy::Draw(CDC* pDC, BOOL bPause)
-{
+BOOL CEnemy::Draw(CDC* pDC, BOOL bPause) {
 	if (bPause == 0) {
 		//敌机位置随机变化,只改变纵坐标，随机数为了让敌机不匀速飞行
 		//+ rand() % 10
@@ -56,8 +35,7 @@ BOOL CEnemy::Draw(CDC* pDC, BOOL bPause)
 }
 
 //加载图像
-BOOL CEnemy::LoadImage()
-{
+BOOL CEnemy::LoadImage() {
 	//加载游戏对象的图标对象
 	CBitmap enemyBmp;
 	if (!enemyBmp.LoadBitmapW(IDB_BMP_ENEMYDOWN))
@@ -71,7 +49,6 @@ BOOL CEnemy::LoadImage()
 	return TRUE;
 }
 
-CRect CEnemy::GetRect()
-{
+CRect CEnemy::GetRect() {
 	return CRect(mPoint, CPoint(mPoint.x + ENEMY_WIDTH, mPoint.y + ENEMY_HEIGHT));
 }

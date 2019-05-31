@@ -194,6 +194,7 @@
     <ClInclude Include="CBullet.h" />
     <ClInclude Include="CEnemy.h" />
     <ClInclude Include="ClassView.h" />
+    <ClInclude Include="CPlane.h" />
     <ClInclude Include="FileView.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="MainFrm.h" />
@@ -215,6 +216,7 @@
     <ClCompile Include="CBullet.cpp" />
     <ClCompile Include="CEnemy.cpp" />
     <ClCompile Include="ClassView.cpp" />
+    <ClCompile Include="CPlane.cpp" />
     <ClCompile Include="FileView.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="MainFrm.cpp" />
