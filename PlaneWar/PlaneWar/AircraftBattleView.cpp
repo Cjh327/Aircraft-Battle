@@ -22,6 +22,7 @@
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
+#include <cassert>
 
 
 // CAircraftBattleView
@@ -152,16 +153,16 @@ int CAircraftBattleView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	startIMG.Add(&startbmp, RGB(0, 0, 0));
 
 	//场景初始化失败
-	if (!scene.InitScene())
-	{
+	if (!scene.InitScene()) {
 		AfxMessageBox(L"图片资源加载失败");
 		exit(0);
 	}
 
 	//参数初始化
-	myplane = new CMyPlane(FALSE);
+	myplane = new CMyPlane(false);
 	isStarted = false;
 	isPause = false;
+	isOver = false;
 
 	SetTimer(4, 40, NULL);//背景滚动定时器
 	SetMyTimer();
@@ -193,7 +194,7 @@ void CAircraftBattleView::OnTimer(UINT_PTR nIDEvent)
 	//替换cdc原本的缓冲区为缓冲位图，这样cdc输出的内容就写到了缓冲位图中
 	CBitmap* pOldBit = cdc.SelectObject(cacheBitmap);
 
-	if (isStarted == FALSE) {
+	if (!isStarted && !isOver) {
 		//欢迎界面
 		scene.StickScene(&cdc, -1, rect);
 		startIMG.Draw(&cdc, 0, CPoint(rect.right / 2 - 173, 100), ILD_TRANSPARENT);
@@ -220,18 +221,8 @@ void CAircraftBattleView::OnTimer(UINT_PTR nIDEvent)
 		cdc.TextOutW(rect.right / 2 - off, 210 + 12 * space, _T("魔法值随着游戏进程增加，可通过使用魔法值使用防护罩、战机升级、战机大招的使用。"));
 		cdc.TextOutW(rect.right / 2 - off, 210 + 13 * space, _T("游戏过程中会有一定程度的血包出现以恢复生命值。"));
 		cdc.TextOutW(rect.right / 2 - off, 210 + 14 * space, _T("随着关卡增多，敌机、炮弹速度和数量均增加，通过10关即可通关！"));
-		//将二级缓冲cdc中的数据推送到一级级缓冲pDC中，即输出到屏幕中
-		pDC->BitBlt(0, 0, rect.Width(), rect.Height(), &cdc, 0, 0, SRCCOPY);
-		//释放二级cdc
-		cdc.DeleteDC();
-		//释放缓冲位图
-		cacheBitmap->DeleteObject();
-		//释放一级pDC
-		ReleaseDC(pDC);
-		CView::OnTimer(nIDEvent);
-		return;
 	}
-	else {
+	else if (isStarted && !isOver) {
 		// 游戏界面
 		scene.StickScene(&cdc, 1, rect);
 		if (nIDEvent == 4) {
@@ -320,13 +311,78 @@ void CAircraftBattleView::OnTimer(UINT_PTR nIDEvent)
 			CRect tmpRect;
 			if (tmpRect.IntersectRect(&(myplane->GetRect()), &(enemy->GetRect()))) {
 				// 战机和敌机区域有重合，即战机撞到敌机
-				myplane->decreaseHp(10 * enemy->getDamage());
+				myplane->decreaseHp(2 * enemy->getDamage());
 				enemyList.RemoveAt(tmpEnemyPos);
 				delete enemy;
 				enemy = NULL;
 				break;
 			}
 		}
+
+		//游戏界面输出该游戏当前信息
+		if (myplane != NULL)
+		{
+			HFONT font;
+			font = CreateFont(15, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 10, 0);
+			cdc.SelectObject(font);
+			CString str;
+			cdc.SetTextColor(RGB(255, 0, 0));
+			//设置透明背景
+			cdc.SetBkMode(TRANSPARENT);
+			/*str.Format(_T("当前关卡:%d"), passNum);
+			cdc.TextOutW(10, 0, str);
+			str.Format(_T("当前命数:%d"), lifeNum);
+			cdc.TextOutW(110, 0, str);
+			str.Format(_T("当前得分:%d"), passScore);
+			cdc.TextOutW(10, 15, str);
+			if (test == TRUE) {
+				cdc.TextOutW(10, 200, _T("无敌模式！！！"));
+			}*/
+
+			HFONT font1;
+			font1 = CreateFont(8, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 10, 0);
+			cdc.SelectObject(font);
+			cdc.SetTextColor(RGB(255, 0, 0));
+			cdc.TextOutW(rect.right - 12 * PLANE_HP - 45, 0, _T("血量："));
+			//输出血条
+			CBrush brush;
+			brush.CreateSolidBrush(RGB(255, 0, 0));
+			CBrush* oldBrush = cdc.SelectObject(&brush);
+			int leftPos, topPos = 0, rightPos, buttomPos = 12;
+			leftPos = rect.right - 12 * PLANE_HP;
+			rightPos = leftPos + 12 * myplane->getHp();
+			cdc.Rectangle(leftPos, topPos, rightPos, buttomPos);
+			brush.DeleteObject();
+
+			//输出血条中的详细血值
+			HFONT textFont;
+			textFont = CreateFont(12, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 10, 0);
+			cdc.SelectObject(textFont);
+			cdc.SetTextColor(RGB(255, 255, 255));
+			str.Format(_T("%d/%d"), myplane->getHp(), PLANE_HP);
+			cdc.TextOutW(rect.right - 12 * PLANE_HP + 12 * 4, 0, str);
+		}
+
+		if (myplane != NULL && !myplane->isAlive()) {
+			gameOver(pDC, cdc, cacheBitmap);
+			isOver = true;
+		}
+	}
+	else if (isOver) {
+		// 游戏结束
+		HFONT textFont;
+		textFont = CreateFont(18, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 10, 0);
+		cdc.SelectObject(textFont);
+		//设置透明背景
+		cdc.SetBkMode(TRANSPARENT);
+		cdc.SetTextColor(RGB(255, 255, 255));
+		//显示最后结果
+		CString str;
+		cdc.TextOutW(rect.right / 2 - 100, rect.bottom / 2 - 30, _T("GAME OVER！"));
+		//str.Format(_T("您的得分为：%d"), myScore);
+		cdc.TextOutW(rect.right / 2 - 100, rect.bottom / 2 - 10, str);
+		cdc.TextOutW(rect.right / 2 - 100, rect.bottom / 2 + 10, _T("不要灰心！再来一次！"));
+		cdc.TextOutW(rect.right / 2 - 100, rect.bottom / 2 + 40, _T("是否重新开始？Y/N"));
 	}
 
 	//将二级缓冲cdc中的数据推送到一级级缓冲pDC中，即输出到屏幕中
@@ -344,16 +400,27 @@ void CAircraftBattleView::OnTimer(UINT_PTR nIDEvent)
 void CAircraftBattleView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	//按空格进入游戏
-	if (isStarted == false) {
+	if (!isStarted) {
 		if (GetKeyState(VK_SPACE) < 0) {
 			isStarted = true;
 		}
 	}
-	else {
+	else if (!isOver){
 		if (myplane != NULL && GetKeyState(VK_SPACE) < 0) {
 			// 按空格键发射子弹
 			CBullet* bullet = new CBullet(myplane->GetPoint().x + PLANE_WIDTH / 2 - BULLET_WIDTH / 2, myplane->GetPoint().y, myplane->getDamage());
 			bulletList.AddTail(bullet);
+		}
+	}
+	else {
+		assert(isOver);
+		if (GetKeyState('Y') < 0) {
+			isOver = false;
+			Restart();
+		}
+		else if (GetKeyState('N') < 0) {
+			MyDialog dlg;
+			dlg.DoModal();
 		}
 	}
 	CView::OnKeyDown(nChar, nRepCnt, nFlags);
@@ -462,7 +529,6 @@ void CAircraftBattleView::gameOver(CDC* pDC, CDC& cdc, CBitmap* cacheBitmap)
 	KillTimer(3);
 	//KillTimer(4);
 	KillTimer(5);
-	//计算最后得分
 	//播放游戏结束音乐
 	PlaySound((LPCTSTR)IDR_WAV_GAMEOVER, AfxGetInstanceHandle(), SND_RESOURCE | SND_ASYNC);
 	//清屏

@@ -51,14 +51,11 @@ public:
 
 	bool isStarted; // 标记欢迎界面是否加载完成
 	bool isPause;   // 是否暂停
+	bool isOver;	// 是否游戏结束
 	CImageList startIMG;
 
 // 操作
 public:
-	//获取战机速度
-	int GetSpeed();
-	//设置战机速度
-	void SetSpeed(int speed);
 	//游戏暂停
 	void Pause();
 	//游戏重新开始
