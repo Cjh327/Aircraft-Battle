@@ -26,10 +26,10 @@ bool CScene::InitScene() {
 
 //绘制场景
 void CScene::StickScene(CDC* pDC, int index, CRect rClient) {
-	if (index == -1)
-		index = 0;
-	else
-		index = index % 7 + 1;
+	//if (index == -1)
+	//	index = 0;
+	//else
+	//	index = index % 7 + 1;
 	//设置缩放图片的模式为:COLORONCOLOR, 以消除像素重叠
 	pDC->SetStretchBltMode(COLORONCOLOR);
 
@@ -40,9 +40,9 @@ void CScene::StickScene(CDC* pDC, int index, CRect rClient) {
 	}
 
 	//客户区高度
-	int cltHeight = rClient.Height();
+	int cHeight = rClient.Height();
 
-	rClient.bottom = cltHeight + beginY;
+	rClient.bottom = cHeight + beginY;
 	rClient.top = beginY;
 
 	//如果是开始就绘制起始背景
@@ -55,8 +55,8 @@ void CScene::StickScene(CDC* pDC, int index, CRect rClient) {
 	}
 
 	//绘制下一张背景
-	rClient.top -= cltHeight;
-	rClient.bottom -= cltHeight;
+	rClient.top -= cHeight;
+	rClient.bottom -= cHeight;
 	images[index].StretchBlt(*pDC, rClient, SRCCOPY);
 }
 

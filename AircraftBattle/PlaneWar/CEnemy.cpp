@@ -8,6 +8,11 @@ CImageList CEnemy::enemyImages;
 CEnemy::CEnemy(int window_width, int window_height) : CPlane(ENEMY_HP, ENEMY_DAMAGE, ENEMY_SPEED) {
 	mPoint.x = rand() % window_width;
 	mPoint.y = 0;
+	score = ENEMY_SCORE;
+}
+
+int CEnemy::getScore() const {
+	return score;
 }
 
 //绘制当前敌机位置

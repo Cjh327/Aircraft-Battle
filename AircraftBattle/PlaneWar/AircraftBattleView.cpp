@@ -163,6 +163,7 @@ int CAircraftBattleView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	isStarted = false;
 	isPause = false;
 	isOver = false;
+	myScore = 0;
 
 	SetTimer(4, 40, NULL);//背景滚动定时器
 	SetMyTimer();
@@ -196,7 +197,7 @@ void CAircraftBattleView::OnTimer(UINT_PTR nIDEvent)
 
 	if (!isStarted && !isOver) {
 		//欢迎界面
-		scene.StickScene(&cdc, -1, rect);
+		scene.StickScene(&cdc, 0, rect);
 		startIMG.Draw(&cdc, 0, CPoint(rect.right / 2 - 173, 100), ILD_TRANSPARENT);
 		//设置透明背景
 		cdc.SetBkMode(TRANSPARENT);
@@ -233,7 +234,7 @@ void CAircraftBattleView::OnTimer(UINT_PTR nIDEvent)
 		if (myplane != NULL) {
 			myplane->Draw(&cdc, FALSE, FALSE);
 		}
-		// 随机添加敌机,敌机随机发射炸弹，此时敌机速度与数量和关卡有关
+		// 随机添加敌机,敌机随机发射炸弹
 		if (myplane != NULL && !isPause) {
 			// 敌机产生定时器触发
 			if (nIDEvent == 2) {
@@ -248,8 +249,8 @@ void CAircraftBattleView::OnTimer(UINT_PTR nIDEvent)
 			tPos = stPos;
 			CEnemy* enemy = (CEnemy*)enemyList.GetNext(stPos);
 			// 判断敌机是否出界
-			if (enemy->GetPoint().x<rect.left || enemy->GetPoint().x>rect.right
-				|| enemy->GetPoint().y<rect.top || enemy->GetPoint().y>rect.bottom) {
+			if (enemy->GetPoint().x < rect.left || enemy->GetPoint().x > rect.right
+				|| enemy->GetPoint().y < rect.top || enemy->GetPoint().y > rect.bottom) {
 				enemyList.RemoveAt(tPos);
 				delete enemy;
 			}
@@ -294,6 +295,7 @@ void CAircraftBattleView::OnTimer(UINT_PTR nIDEvent)
 					delete bullet;
 					bullet = NULL;
 					if (!enemy->isAlive()) {
+						myScore += enemy->getScore();
 						enemyList.RemoveAt(tmpEnemyPos);
 						delete enemy;
 						enemy = NULL;
@@ -312,6 +314,7 @@ void CAircraftBattleView::OnTimer(UINT_PTR nIDEvent)
 			if (tmpRect.IntersectRect(&(myplane->GetRect()), &(enemy->GetRect()))) {
 				// 战机和敌机区域有重合，即战机撞到敌机
 				myplane->decreaseHp(2 * enemy->getDamage());
+				myScore += enemy->getScore();
 				enemyList.RemoveAt(tmpEnemyPos);
 				delete enemy;
 				enemy = NULL;
@@ -323,27 +326,18 @@ void CAircraftBattleView::OnTimer(UINT_PTR nIDEvent)
 		if (myplane != NULL)
 		{
 			HFONT font;
-			font = CreateFont(15, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 10, 0);
+			font = CreateFont(20, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 10, 0);
 			cdc.SelectObject(font);
 			CString str;
 			cdc.SetTextColor(RGB(255, 0, 0));
 			//设置透明背景
 			cdc.SetBkMode(TRANSPARENT);
-			/*str.Format(_T("当前关卡:%d"), passNum);
-			cdc.TextOutW(10, 0, str);
-			str.Format(_T("当前命数:%d"), lifeNum);
-			cdc.TextOutW(110, 0, str);
-			str.Format(_T("当前得分:%d"), passScore);
-			cdc.TextOutW(10, 15, str);
-			if (test == TRUE) {
-				cdc.TextOutW(10, 200, _T("无敌模式！！！"));
-			}*/
 
-			HFONT font1;
-			font1 = CreateFont(8, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 10, 0);
 			cdc.SelectObject(font);
 			cdc.SetTextColor(RGB(255, 0, 0));
-			cdc.TextOutW(rect.right - 12 * PLANE_HP - 45, 0, _T("血量："));
+			cdc.TextOutW(rect.right - 12 * PLANE_HP - 60, 0, _T("血量："));
+			str.Format(_T("得分：%d"), myScore);
+			cdc.TextOutW(rect.right - 12 * PLANE_HP - 60, 20, str);
 			//输出血条
 			CBrush brush;
 			brush.CreateSolidBrush(RGB(255, 0, 0));
@@ -379,10 +373,10 @@ void CAircraftBattleView::OnTimer(UINT_PTR nIDEvent)
 		//显示最后结果
 		CString str;
 		cdc.TextOutW(rect.right / 2 - 100, rect.bottom / 2 - 30, _T("GAME OVER！"));
-		//str.Format(_T("您的得分为：%d"), myScore);
-		cdc.TextOutW(rect.right / 2 - 100, rect.bottom / 2 - 10, str);
-		cdc.TextOutW(rect.right / 2 - 100, rect.bottom / 2 + 10, _T("不要灰心！再来一次！"));
-		cdc.TextOutW(rect.right / 2 - 100, rect.bottom / 2 + 40, _T("是否重新开始？Y/N"));
+		str.Format(_T("您的得分为：%d"), myScore);
+		cdc.TextOutW(rect.right / 2 - 100, rect.bottom / 2 - 5, str);
+		cdc.TextOutW(rect.right / 2 - 100, rect.bottom / 2 + 30, _T("不要灰心！再来一次！"));
+		cdc.TextOutW(rect.right / 2 - 100, rect.bottom / 2 + 55, _T("是否重新开始？Y/N"));
 	}
 
 	//将二级缓冲cdc中的数据推送到一级级缓冲pDC中，即输出到屏幕中
@@ -405,7 +399,7 @@ void CAircraftBattleView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 			isStarted = true;
 		}
 	}
-	else if (!isOver){
+	else if (!isOver) {
 		if (myplane != NULL && GetKeyState(VK_SPACE) < 0) {
 			// 按空格键发射子弹
 			CBullet* bullet = new CBullet(myplane->GetPoint().x + PLANE_WIDTH / 2 - BULLET_WIDTH / 2, myplane->GetPoint().y, myplane->getDamage());
@@ -489,24 +483,14 @@ void CAircraftBattleView::Restart()
 	//清空敌机链表
 	if (enemyList.GetCount() > 0)
 		enemyList.RemoveAll();
-	//清空战机链表
-	if (meList.GetCount() > 0)
-		meList.RemoveAll();
 	//清空战机子弹链表
 	if (bulletList.GetCount() > 0)
 		bulletList.RemoveAll();
-	//清空敌机炸弹链表
-	if (ballList.GetCount() > 0)
-		ballList.RemoveAll();
-	//清空爆炸链表
-	if (explosionList.GetCount() > 0)
-		explosionList.RemoveAll();
-	//清空血包列表
-	if (bloodList.GetCount() > 0)
-		bloodList.RemoveAll();
 
 	//参数重新初始化
 	isPause = false;
+	isOver = false;
+	myScore = 0;
 	//isStarted = FALSE;
 	SetMyTimer();
 }

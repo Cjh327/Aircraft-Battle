@@ -41,17 +41,16 @@ public:
 
 	//创建存储游戏对象的对象链表
 	CObList enemyList;
-	CObList meList;
 	CObList bulletList;
-	CObList ballList;
-	CObList explosionList;
-	CObList bloodList;
 
 	CRect rect;//窗口屏幕矩形
 
 	bool isStarted; // 标记欢迎界面是否加载完成
 	bool isPause;   // 是否暂停
 	bool isOver;	// 是否游戏结束
+
+	int myScore;		// 游戏得分
+
 	CImageList startIMG;
 
 // 操作
