@@ -402,7 +402,26 @@ void CAircraftBattleView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	else if (!isOver) {
 		if (myplane != NULL && GetKeyState(VK_SPACE) < 0) {
 			// 按空格键发射子弹
-			CBullet* bullet = new CBullet(myplane->GetPoint().x + PLANE_WIDTH / 2 - BULLET_WIDTH / 2, myplane->GetPoint().y, myplane->getDamage());
+			CBullet* bullet1, *bullet2, *bullet3;
+			bullet1 = bullet2 = bullet3 = nullptr;
+			switch (myScore / 100) {
+			case 0:	bullet1 = new CBullet(myplane->GetPoint().x + PLANE_WIDTH / 2 - BULLET_WIDTH / 2, myplane->GetPoint().y, myplane->getDamage(), 0, 30, true);
+					bulletList.AddTail(bullet1);
+					break;
+			case 1: bullet1 = new CBullet(myplane->GetPoint().x + PLANE_WIDTH / 2 - BULLET_WIDTH / 2 - 10, myplane->GetPoint().y, myplane->getDamage(), 0, 30, true);
+					bullet2 = new CBullet(myplane->GetPoint().x + PLANE_WIDTH / 2 - BULLET_WIDTH / 2 + 10, myplane->GetPoint().y, myplane->getDamage(), 0, 30, true);
+					bulletList.AddTail(bullet1);
+					bulletList.AddTail(bullet2);
+					break;
+			default:bullet1 = new CBullet(myplane->GetPoint().x + PLANE_WIDTH / 2 - BULLET_WIDTH / 2, myplane->GetPoint().y, myplane->getDamage(), 0, 30, true);
+					bullet2 = new CBullet(myplane->GetPoint().x + PLANE_WIDTH / 2 - BULLET_WIDTH / 2 - 5, myplane->GetPoint().y, myplane->getDamage(), 10, 30, true);
+					bullet3 = new CBullet(myplane->GetPoint().x + PLANE_WIDTH / 2 - BULLET_WIDTH / 2 + 5, myplane->GetPoint().y, myplane->getDamage(), -10, 30, true);
+					bulletList.AddTail(bullet1);
+					bulletList.AddTail(bullet2);
+					bulletList.AddTail(bullet3);
+				break;
+			}
+			CBullet* bullet = new CBullet(myplane->GetPoint().x + PLANE_WIDTH / 2 - BULLET_WIDTH / 2, myplane->GetPoint().y, myplane->getDamage(), 0, 30, true);
 			bulletList.AddTail(bullet);
 		}
 	}
@@ -442,7 +461,7 @@ void CAircraftBattleView::OnLButtonDown(UINT nFlags, CPoint point)
 	}
 	else if (myplane != NULL) {
 		// 按鼠标左键发射子弹
-		CBullet* bullet = new CBullet(myplane->GetPoint().x + PLANE_WIDTH / 2 - BULLET_WIDTH / 2, myplane->GetPoint().y, myplane->getDamage());
+		CBullet* bullet = new CBullet(myplane->GetPoint().x + PLANE_WIDTH / 2 - BULLET_WIDTH / 2, myplane->GetPoint().y, myplane->getDamage(), 0, 30, true);
 		bulletList.AddTail(bullet);
 	}
 

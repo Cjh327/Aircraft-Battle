@@ -8,15 +8,18 @@
 class CBullet :	public CGameObject
 {
 private:
-	int speed;
+	bool fromMe;
+	int speedX;
+	int speedY;
 	int damage;
 
 protected:
 	static CImageList bulletImages; // ×Óµ¯Í¼Ïñ
 	
 public:
-	CBullet(int x, int y, int _damage, int _speed = BULLET_SPEED);
-	int getSpeed() const;
+	CBullet(int x, int y, int _damage, int _speed, int _speedY, bool _fromMe);
+	int getSpeedX() const;
+	int getSpeedY() const;
 	int getDamage() const;
 
 	CRect GetRect();
