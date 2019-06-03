@@ -13,18 +13,20 @@ class CEnemy : public CPlane
 {
 private:
 	int score;
+	int index;
 protected:
 	static CImageList enemyImages; //µÐ»úÍ¼Ïñ
 
 public:
-	CEnemy(int window_width, int window_heigh);
+	CEnemy(int window_width, int window_heigh, int _idx);
 	int getScore() const;
+	int getIndex() const;
 
 	CRect GetRect();
 
 	//»æÖÆ
 	BOOL Draw(CDC* pDC, BOOL bPause);
-	BOOL Draw(CDC* pDC, int passNum, BOOL bPause);
+	//BOOL Draw(CDC* pDC, int index, BOOL bPause);
 
 	//¼ÓÔØµÐ»úÍ¼Ïñ
 	static BOOL LoadImage();

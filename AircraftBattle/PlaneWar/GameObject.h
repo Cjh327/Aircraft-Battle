@@ -32,4 +32,3 @@ protected:
 	//游戏对象的位置
 	CPoint  mPoint;
 };
-

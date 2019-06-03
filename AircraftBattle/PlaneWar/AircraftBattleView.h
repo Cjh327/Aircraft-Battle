@@ -30,18 +30,19 @@ protected: // 仅从序列化创建
 	CAircraftBattleView();
 	DECLARE_DYNCREATE(CAircraftBattleView)
 
-// 特性
+	// 特性
 public:
 	CAircraftBattleDoc* GetDocument() const;
 
 	CScene	scene;//场景
 
 	//创建各游戏对象
-	CMyPlane *myplane;
+	CMyPlane* myplane;
 
 	//创建存储游戏对象的对象链表
 	CObList enemyList;
-	CObList bulletList;
+	CObList myBulletList;
+	CObList enemyBulletList;
 
 	CRect rect;//窗口屏幕矩形
 
@@ -53,14 +54,14 @@ public:
 
 	CImageList startIMG;
 
-// 操作
+	// 操作
 public:
 	//游戏暂停
 	void Pause();
 	//游戏重新开始
 	void Restart();
 
-// 重写
+	// 重写
 public:
 	virtual void OnDraw(CDC* pDC);  // 重写以绘制该视图
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
@@ -69,7 +70,7 @@ protected:
 	virtual void OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo);
 	virtual void OnEndPrinting(CDC* pDC, CPrintInfo* pInfo);
 
-// 实现
+	// 实现
 public:
 	virtual ~CAircraftBattleView();
 #ifdef _DEBUG
@@ -79,7 +80,7 @@ public:
 
 protected:
 
-// 生成的消息映射函数
+	// 生成的消息映射函数
 protected:
 	afx_msg void OnFilePrintPreview();
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
@@ -92,15 +93,14 @@ public:
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnDestroy();
-	// 生命值归零，游戏结束
-	void gameOver(CDC* pDC,  CDC& cdc,  CBitmap* cacheBitmap);
-	//设置计时器
+	void gameOver(CDC* pDC, CDC& cdc, CBitmap* cacheBitmap);
 	void SetMyTimer();
-	//afx_msg void OnClose();
 };
 
 #ifndef _DEBUG  // AircraftBattleView.cpp 中的调试版本
 inline CAircraftBattleDoc* CAircraftBattleView::GetDocument() const
-   { return reinterpret_cast<CAircraftBattleDoc*>(m_pDocument); }
+{
+	return reinterpret_cast<CAircraftBattleDoc*>(m_pDocument);
+}
 #endif
 

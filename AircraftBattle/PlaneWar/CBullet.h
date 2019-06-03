@@ -12,12 +12,14 @@ private:
 	int speedX;
 	int speedY;
 	int damage;
+	int index;
 
 protected:
-	static CImageList bulletImages; // ×Óµ¯Í¼Ïñ
+	static CImageList myBulletImages;		// Õ½»ú×Óµ¯Í¼Ïñ
+	static CImageList enemyBulletImages;	// µÐ»ú×Óµ¯Í¼Ïñ
 	
 public:
-	CBullet(int x, int y, int _damage, int _speed, int _speedY, bool _fromMe);
+	CBullet(int x, int y, int _damage, int _speed, int _speedY, bool _fromMe, int _index);
 	int getSpeedX() const;
 	int getSpeedY() const;
 	int getDamage() const;

@@ -10,7 +10,7 @@ CImageList CMyPlane::images;
 CImageList CMyPlane::images1;
 CImageList CMyPlane::imagespro;
 
-CMyPlane::CMyPlane(bool isUpdate): CPlane(PLANE_HP, PLANE_DAMAGE, PLANE_SPEED) {
+CMyPlane::CMyPlane(bool isUpdate): CPlane(PLANE_HP, PLANE_DAMAGE, 0, 0) {
 	index = isUpdate ? 1 : 0;
 	mPoint.x = PLANE_X;
 	mPoint.y = PLANE_Y;

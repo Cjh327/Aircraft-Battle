@@ -2,15 +2,17 @@
 #include "CBullet.h"
 #include "resource.h"
 
-CImageList CBullet::bulletImages; // ×Óµ¯Í¼Ïñ
+CImageList CBullet::myBulletImages;		// Õ½»ú×Óµ¯Í¼Ïñ
+CImageList CBullet::enemyBulletImages;	// µÐ»ú×Óµ¯Í¼Ïñ
 
-CBullet::CBullet(int x, int y, int _damage, int _speedX, int _speedY, bool _fromMe) {
+CBullet::CBullet(int x, int y, int _damage, int _speedX, int _speedY, bool _fromMe, int _index) {
 	mPoint.x = x;
 	mPoint.y = y;
 	speedX = _speedX;
 	speedY = _speedY;
 	damage = _damage;
 	fromMe = _fromMe;
+	index = _index;
 }
 
 bool CBullet::getFromMe() const {
@@ -38,8 +40,12 @@ BOOL CBullet::Draw(CDC* pDC, BOOL bPause) {
 	if (bPause == 0) {
 		mPoint.y -= speedY;
 		mPoint.x -= speedX;
-		//int index = rand() % 15;
-		return bulletImages.Draw(pDC, 2, mPoint, ILD_TRANSPARENT);
+		if (fromMe) {
+			return myBulletImages.Draw(pDC, index, mPoint, ILD_TRANSPARENT);
+		}
+		else {
+			return enemyBulletImages.Draw(pDC, index, mPoint, ILD_TRANSPARENT);
+		}
 	}
 	else {
 		return FALSE;
@@ -48,6 +54,7 @@ BOOL CBullet::Draw(CDC* pDC, BOOL bPause) {
 
 //¼ÓÔØµÐ»úÍ¼Ïñ
 BOOL CBullet::LoadImage() {
-	CGameObject::LoadImage(bulletImages, IDB_BMP_BOMB1, RGB(0, 0, 0), BULLET_WIDTH, BULLET_WIDTH, 15);
+	CGameObject::LoadImage(myBulletImages, IDB_BMP_BOMB1, RGB(0, 0, 0), BULLET_WIDTH, BULLET_WIDTH, 15);
+	CGameObject::LoadImage(enemyBulletImages, IDB_BMP_BALLDOWN, RGB(0, 0, 0), 15, 40, 5);
 	return TRUE;
 }

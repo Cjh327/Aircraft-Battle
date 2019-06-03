@@ -5,12 +5,15 @@ class CPlane : public CGameObject {
 protected:
 	int hp;
 	int damage;
-	int speed;
+	int speedX;
+	int speedY;
 
 public:
-	CPlane(int _hp, int _damage, int _speed);
+	CPlane();
+	CPlane(int _hp, int _damage, int _speedX, int _speedY);
 	int getHp() const;
-	int getSpeed() const;
+	int getSpeedX() const;
+	int getSpeedY() const;
 	int getDamage() const;
 	void decreaseHp(int x);
 	bool isAlive() const;
