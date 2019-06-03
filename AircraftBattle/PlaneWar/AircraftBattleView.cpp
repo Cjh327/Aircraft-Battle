@@ -242,6 +242,7 @@ void CAircraftBattleView::OnTimer(UINT_PTR nIDEvent)
 				enemyList.AddTail(enemy);	//随机产生敌机
 			}
 		}
+
 		// 超出边界的敌机进行销毁
 		POSITION stPos = NULL, tPos = NULL;
 		stPos = enemyList.GetHeadPosition();
@@ -257,16 +258,20 @@ void CAircraftBattleView::OnTimer(UINT_PTR nIDEvent)
 			else {
 				//没出界，绘制
 				enemy->Draw(&cdc, 1, FALSE);
+				if (nIDEvent == 3) {
+					CBullet* bullet = new CBullet(enemy->GetPoint().x + ENEMY_WIDTH / 2 - BULLET_WIDTH / 2, enemy->GetPoint().y + ENEMY_HEIGHT, enemy->getDamage(), 0, -5, false);
+					bulletList.AddTail(bullet);	//随机产生子弹
+				}
 			}
 		}
 
-		// 发射子弹，超出边界的子弹进行销毁
+		// 战机发射子弹，超出边界的子弹进行销毁
 		stPos = NULL, tPos = NULL;
 		stPos = bulletList.GetHeadPosition();
 		while (stPos != NULL) {
 			tPos = stPos;
 			CBullet* bullet = (CBullet*)bulletList.GetNext(stPos);
-			// 判断敌机是否出界
+			// 判断子弹是否出界
 			if (bullet->GetPoint().x < rect.left || bullet->GetPoint().x > rect.right
 				|| bullet->GetPoint().y < rect.top || bullet->GetPoint().y > rect.bottom) {
 				bulletList.RemoveAt(tPos);
@@ -278,30 +283,44 @@ void CAircraftBattleView::OnTimer(UINT_PTR nIDEvent)
 			}
 		}
 
-		// 子弹打中敌机
+
+		// 子弹打中飞机
 		POSITION bulletPos = bulletList.GetHeadPosition(), tmpBulletPos = bulletPos;
 		while (bulletPos != NULL) {
 			tmpBulletPos = bulletPos;
 			CBullet* bullet = (CBullet*)bulletList.GetNext(bulletPos);
-			POSITION enemyPos = enemyList.GetHeadPosition(), tmpEnemyPos = enemyPos;
-			while (enemyPos != NULL) {
-				tmpEnemyPos = enemyPos;
-				CEnemy* enemy = (CEnemy*)enemyList.GetNext(enemyPos);
+			if (bullet->getFromMe()) {
+				POSITION enemyPos = enemyList.GetHeadPosition(), tmpEnemyPos = enemyPos;
+				while (enemyPos != NULL) {
+					tmpEnemyPos = enemyPos;
+					CEnemy* enemy = (CEnemy*)enemyList.GetNext(enemyPos);
+					CRect tmpRect;
+					if (tmpRect.IntersectRect(&(bullet->GetRect()), &(enemy->GetRect()))) {
+						// 战机子弹和敌机区域有重合，即战机子弹打中敌机
+						bulletList.RemoveAt(tmpBulletPos);
+						enemy->decreaseHp(bullet->getDamage());
+						delete bullet;
+						bullet = NULL;
+						if (!enemy->isAlive()) {
+							myScore += enemy->getScore();
+							enemyList.RemoveAt(tmpEnemyPos);
+							delete enemy;
+							enemy = NULL;
+						}
+						break;
+					}
+				}
+			}
+			else {
 				CRect tmpRect;
-				if (tmpRect.IntersectRect(&(bullet->GetRect()), &(enemy->GetRect()))) {
-					// 子弹和敌机区域有重合，即子弹打中敌机
+				if (tmpRect.IntersectRect(&(bullet->GetRect()), &(myplane->GetRect()))) {
+					// 敌机子弹和战机区域有重合，即敌机子弹打中战机
 					bulletList.RemoveAt(tmpBulletPos);
-					enemy->decreaseHp(bullet->getDamage());
+					myplane->decreaseHp(bullet->getDamage());
 					delete bullet;
 					bullet = NULL;
-					if (!enemy->isAlive()) {
-						myScore += enemy->getScore();
-						enemyList.RemoveAt(tmpEnemyPos);
-						delete enemy;
-						enemy = NULL;
-					}
-					break;
 				}
+
 			}
 		}
 
@@ -460,8 +479,26 @@ void CAircraftBattleView::OnLButtonDown(UINT nFlags, CPoint point)
 	}
 	else if (myplane != NULL) {
 		// 按鼠标左键发射子弹
-		CBullet* bullet = new CBullet(myplane->GetPoint().x + PLANE_WIDTH / 2 - BULLET_WIDTH / 2, myplane->GetPoint().y, myplane->getDamage(), 0, 30, true);
-		bulletList.AddTail(bullet);
+		CBullet* bullet1, * bullet2, * bullet3;
+		bullet1 = bullet2 = bullet3 = nullptr;
+		if (myScore < 100) {
+			bullet1 = new CBullet(myplane->GetPoint().x + PLANE_WIDTH / 2 - BULLET_WIDTH / 2, myplane->GetPoint().y, myplane->getDamage(), 0, 30, true);
+			bulletList.AddTail(bullet1);
+		}
+		else if (myScore < 300) {
+			bullet1 = new CBullet(myplane->GetPoint().x + PLANE_WIDTH / 2 - BULLET_WIDTH / 2 - 15, myplane->GetPoint().y, myplane->getDamage(), 0, 30, true);
+			bullet2 = new CBullet(myplane->GetPoint().x + PLANE_WIDTH / 2 - BULLET_WIDTH / 2 + 15, myplane->GetPoint().y, myplane->getDamage(), 0, 30, true);
+			bulletList.AddTail(bullet1);
+			bulletList.AddTail(bullet2);
+		}
+		else {
+			bullet1 = new CBullet(myplane->GetPoint().x + PLANE_WIDTH / 2 - BULLET_WIDTH / 2, myplane->GetPoint().y, myplane->getDamage(), 0, 30, true);
+			bullet2 = new CBullet(myplane->GetPoint().x + PLANE_WIDTH / 2 - BULLET_WIDTH / 2 - 10, myplane->GetPoint().y, myplane->getDamage(), 10, 30, true);
+			bullet3 = new CBullet(myplane->GetPoint().x + PLANE_WIDTH / 2 - BULLET_WIDTH / 2 + 10, myplane->GetPoint().y, myplane->getDamage(), -10, 30, true);
+			bulletList.AddTail(bullet1);
+			bulletList.AddTail(bullet2);
+			bulletList.AddTail(bullet3);
+		}
 	}
 
 	CView::OnLButtonDown(nFlags, point);
@@ -548,7 +585,7 @@ void CAircraftBattleView::SetMyTimer()
 {
 	SetTimer(1, 17, NULL);//刷新界面定时器
 	SetTimer(2, 400 - 1 * 30, NULL);//产生敌机定时器
-	SetTimer(3, 2000 - 1 * 100, NULL);//产生敌机炮弹频率
+	SetTimer(3, 2000 - 2 * 100, NULL);//产生敌机炮弹频率
 
 	SetTimer(5, 2000, NULL);//控制魔法值变化频率
 }

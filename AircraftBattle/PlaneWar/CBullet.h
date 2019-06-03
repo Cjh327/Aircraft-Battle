@@ -21,6 +21,7 @@ public:
 	int getSpeedX() const;
 	int getSpeedY() const;
 	int getDamage() const;
+	bool getFromMe() const;
 
 	CRect GetRect();
 

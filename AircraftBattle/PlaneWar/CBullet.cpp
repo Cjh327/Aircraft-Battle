@@ -13,6 +13,10 @@ CBullet::CBullet(int x, int y, int _damage, int _speedX, int _speedY, bool _from
 	fromMe = _fromMe;
 }
 
+bool CBullet::getFromMe() const {
+	return fromMe;
+}
+
 int CBullet::getSpeedX() const {
 	return speedX;
 }
