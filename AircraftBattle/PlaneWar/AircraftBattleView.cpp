@@ -18,11 +18,11 @@
 #include "CEnemy.h"
 #include "MyPlane.h"
 #include "CBullet.h"
+#include "CSupply.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
-#include <cassert>
 
 
 // CAircraftBattleView
@@ -143,9 +143,9 @@ int CAircraftBattleView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	//-----------初始化工作------------
 	//加载游戏对象图片
 	CMyPlane::LoadImage();
-	CMyPlane::LoadImageProtect();
 	CEnemy::LoadImage();
 	CBullet::LoadImage();
+	CSupply::LoadImage();
 	//加载标题图片
 	CBitmap startbmp;
 	startbmp.LoadBitmapW(IDB_BMP_TITLE);
@@ -234,7 +234,7 @@ void CAircraftBattleView::OnTimer(UINT_PTR nIDEvent)
 		if (myplane != NULL) {
 			myplane->Draw(&cdc, FALSE, FALSE);
 		}
-		// 随机添加敌机,敌机随机发射炸弹
+		// 随机产生敌机和补给包
 		if (myplane != NULL && !isPause) {
 			// 敌机产生定时器触发
 			if (nIDEvent == 2) {
@@ -247,148 +247,176 @@ void CAircraftBattleView::OnTimer(UINT_PTR nIDEvent)
 				CEnemy* enemy = new CEnemy(rect.right, rect.bottom, 2);
 				enemyList.AddTail(enemy);
 			}
+			if (nIDEvent == 6) {
+				// 随机产生补给包
+				CSupply* supply = new CSupply(rect.right, rect.bottom);
+				supplyList.AddTail(supply);
+			}
 		}
 
-		// 超出边界的敌机进行销毁
-		POSITION stPos = NULL, tPos = NULL;
-		stPos = enemyList.GetHeadPosition();
-		while (stPos != NULL) {
-			tPos = stPos;
-			CEnemy* enemy = (CEnemy*)enemyList.GetNext(stPos);
-			// 判断敌机是否出界
-			if (enemy->GetPoint().x < rect.left || enemy->GetPoint().x > rect.right
-				|| enemy->GetPoint().y < rect.top || enemy->GetPoint().y > rect.bottom) {
-				enemyList.RemoveAt(tPos);
-				delete enemy;
+		if (myplane != NULL && !isPause) {
+			// 绘制补给包
+			POSITION supplyPos = supplyList.GetHeadPosition(), tmpSupplyPos;
+			while (supplyPos != NULL) {
+				CSupply* supply = (CSupply*)supplyList.GetNext(supplyPos);
+				supply->Draw(&cdc, FALSE);
 			}
-			else {
-				//没出界，绘制
-				enemy->Draw(&cdc, FALSE);
-				if (nIDEvent == 3) {
-					CBullet* bullet = new CBullet(enemy->GetPoint().x + ENEMY_WIDTH / 2 - BULLET_WIDTH / 2, enemy->GetPoint().y + ENEMY_HEIGHT, enemy->getDamage(), 0, -5, false, enemy->getIndex());
-					enemyBulletList.AddTail(bullet);
+
+			// 超出边界的敌机进行销毁
+			POSITION stPos = NULL, tPos = NULL;
+			stPos = enemyList.GetHeadPosition();
+			while (stPos != NULL) {
+				tPos = stPos;
+				CEnemy* enemy = (CEnemy*)enemyList.GetNext(stPos);
+				// 判断敌机是否出界
+				if (enemy->GetPoint().x < rect.left || enemy->GetPoint().x > rect.right
+					|| enemy->GetPoint().y < rect.top || enemy->GetPoint().y > rect.bottom) {
+					enemyList.RemoveAt(tPos);
+					delete enemy;
+				}
+				else {
+					// 没出界则绘制
+					enemy->Draw(&cdc, FALSE);
+					if (nIDEvent == 3) {
+						CBullet* bullet = new CBullet(enemy->GetPoint().x + ENEMY_WIDTH / 2 - BULLET_WIDTH / 2, enemy->GetPoint().y + ENEMY_HEIGHT, enemy->getDamage(), 0, -5, false, enemy->getIndex());
+						enemyBulletList.AddTail(bullet);
+					}
 				}
 			}
-		}
 
-		// 发射子弹，超出边界的子弹进行销毁
-		stPos = NULL, tPos = NULL;
-		stPos = enemyBulletList.GetHeadPosition();
-		while (stPos != NULL) {
-			tPos = stPos;
-			CBullet* bullet = (CBullet*)enemyBulletList.GetNext(stPos);
-			// 判断子弹是否出界
-			if (bullet->GetPoint().x < rect.left || bullet->GetPoint().x > rect.right
-				|| bullet->GetPoint().y < rect.top || bullet->GetPoint().y > rect.bottom) {
-				enemyBulletList.RemoveAt(tPos);
-				delete bullet;
+			// 发射子弹，超出边界的子弹进行销毁
+			stPos = NULL, tPos = NULL;
+			stPos = enemyBulletList.GetHeadPosition();
+			while (stPos != NULL) {
+				tPos = stPos;
+				CBullet* bullet = (CBullet*)enemyBulletList.GetNext(stPos);
+				// 判断子弹是否出界
+				if (bullet->GetPoint().x < rect.left || bullet->GetPoint().x > rect.right
+					|| bullet->GetPoint().y < rect.top || bullet->GetPoint().y > rect.bottom) {
+					enemyBulletList.RemoveAt(tPos);
+					delete bullet;
+				}
+				else {
+					// 没出界，绘制
+					bullet->Draw(&cdc, FALSE);
+				}
 			}
-			else {
-				// 没出界，绘制
-				bullet->Draw(&cdc, FALSE);
+			stPos = NULL, tPos = NULL;
+			stPos = myBulletList.GetHeadPosition();
+			while (stPos != NULL) {
+				tPos = stPos;
+				CBullet* bullet = (CBullet*)myBulletList.GetNext(stPos);
+				// 判断子弹是否出界
+				if (bullet->GetPoint().x < rect.left || bullet->GetPoint().x > rect.right
+					|| bullet->GetPoint().y < rect.top || bullet->GetPoint().y > rect.bottom) {
+					myBulletList.RemoveAt(tPos);
+					delete bullet;
+				}
+				else {
+					// 没出界，绘制
+					bullet->Draw(&cdc, FALSE);
+				}
 			}
-		}
 
-		stPos = NULL, tPos = NULL;
-		stPos = myBulletList.GetHeadPosition();
-		while (stPos != NULL) {
-			tPos = stPos;
-			CBullet* bullet = (CBullet*)myBulletList.GetNext(stPos);
-			// 判断子弹是否出界
-			if (bullet->GetPoint().x < rect.left || bullet->GetPoint().x > rect.right
-				|| bullet->GetPoint().y < rect.top || bullet->GetPoint().y > rect.bottom) {
-				myBulletList.RemoveAt(tPos);
-				delete bullet;
+			// 战机子弹打中敌机
+			POSITION bulletPos = myBulletList.GetHeadPosition(), tmpBulletPos = bulletPos;
+			while (bulletPos != NULL) {
+				tmpBulletPos = bulletPos;
+				CBullet* bullet = (CBullet*)myBulletList.GetNext(bulletPos);
+				ASSERT(bullet->getFromMe());
+				POSITION enemyPos = enemyList.GetHeadPosition(), tmpEnemyPos = enemyPos;
+				while (enemyPos != NULL) {
+					tmpEnemyPos = enemyPos;
+					CEnemy* enemy = (CEnemy*)enemyList.GetNext(enemyPos);
+					CRect tmpRect;
+					if (tmpRect.IntersectRect(&(bullet->GetRect()), &(enemy->GetRect()))) {
+						// 战机子弹和敌机区域有重合，即战机子弹打中敌机
+						myBulletList.RemoveAt(tmpBulletPos);
+						enemy->decreaseHp(bullet->getDamage());
+						delete bullet;
+						bullet = NULL;
+						if (!enemy->isAlive()) {
+							myScore += enemy->getScore();
+							enemyList.RemoveAt(tmpEnemyPos);
+							delete enemy;
+							enemy = NULL;
+						}
+						break;
+					}
+				}
 			}
-			else {
-				// 没出界，绘制
-				bullet->Draw(&cdc, FALSE);
-			}
-		}
 
-		// 战机子弹打中敌机
-		POSITION bulletPos = myBulletList.GetHeadPosition(), tmpBulletPos = bulletPos;
-		while (bulletPos != NULL) {
-			tmpBulletPos = bulletPos;
-			CBullet* bullet = (CBullet*)myBulletList.GetNext(bulletPos);
-			ASSERT(bullet->getFromMe());
+			// 敌机子弹打中战机
+			bulletPos = enemyBulletList.GetHeadPosition(), tmpBulletPos = bulletPos;
+			while (bulletPos != NULL) {
+				tmpBulletPos = bulletPos;
+				CBullet* bullet = (CBullet*)enemyBulletList.GetNext(bulletPos);
+				ASSERT(!bullet->getFromMe());
+				CRect tmpRect;
+				if (tmpRect.IntersectRect(&(bullet->GetRect()), &(myplane->GetRect()))) {
+					// 敌机子弹和战机区域有重合，即敌机子弹打中战机
+					enemyBulletList.RemoveAt(tmpBulletPos);
+					myplane->decreaseHp(bullet->getDamage());
+					delete bullet;
+					bullet = NULL;
+				}
+			}
+
+			// 子弹打中子弹
+			bulletPos = myBulletList.GetHeadPosition(), tmpBulletPos = bulletPos;
+			while (bulletPos != NULL) {
+				tmpBulletPos = bulletPos;
+				CBullet* myBullet = (CBullet*)myBulletList.GetNext(bulletPos);
+				POSITION bulletPos1 = enemyBulletList.GetHeadPosition(), tmpBulletPos1 = bulletPos1;
+				while (bulletPos1 != NULL) {
+					tmpBulletPos1 = bulletPos1;
+					CBullet* enemyBullet = (CBullet*)enemyBulletList.GetNext(bulletPos1);
+					ASSERT(myBullet->getFromMe() != enemyBullet->getFromMe());
+					CRect tmpRect;
+					if (tmpRect.IntersectRect(&(myBullet->GetRect()), &(enemyBullet->GetRect()))) {
+						// 战机子弹和敌机子弹有重合，即战机子弹打中敌机子弹
+						myBulletList.RemoveAt(tmpBulletPos);
+						enemyBulletList.RemoveAt(tmpBulletPos1);
+						delete myBullet;
+						delete enemyBullet;
+						myBullet = enemyBullet = NULL;
+						break;
+					}
+
+				}
+			}
+
+			// 战机撞到敌机
 			POSITION enemyPos = enemyList.GetHeadPosition(), tmpEnemyPos = enemyPos;
 			while (enemyPos != NULL) {
 				tmpEnemyPos = enemyPos;
 				CEnemy* enemy = (CEnemy*)enemyList.GetNext(enemyPos);
 				CRect tmpRect;
-				if (tmpRect.IntersectRect(&(bullet->GetRect()), &(enemy->GetRect()))) {
-					// 战机子弹和敌机区域有重合，即战机子弹打中敌机
-					myBulletList.RemoveAt(tmpBulletPos);
-					enemy->decreaseHp(bullet->getDamage());
-					delete bullet;
-					bullet = NULL;
-					if (!enemy->isAlive()) {
-						myScore += enemy->getScore();
-						enemyList.RemoveAt(tmpEnemyPos);
-						delete enemy;
-						enemy = NULL;
-					}
+				if (tmpRect.IntersectRect(&(myplane->GetRect()), &(enemy->GetRect()))) {
+					// 战机和敌机区域有重合，即战机撞到敌机
+					myplane->decreaseHp(2 * enemy->getDamage());
+					myScore += enemy->getScore();
+					enemyList.RemoveAt(tmpEnemyPos);
+					delete enemy;
+					enemy = NULL;
 					break;
 				}
 			}
-		}
 
-		// 敌机子弹打中战机
-		bulletPos = enemyBulletList.GetHeadPosition(), tmpBulletPos = bulletPos;
-		while (bulletPos != NULL) {
-			tmpBulletPos = bulletPos;
-			CBullet* bullet = (CBullet*)enemyBulletList.GetNext(bulletPos);
-			ASSERT(!bullet->getFromMe());
-			CRect tmpRect;
-			if (tmpRect.IntersectRect(&(bullet->GetRect()), &(myplane->GetRect()))) {
-				// 敌机子弹和战机区域有重合，即敌机子弹打中战机
-				enemyBulletList.RemoveAt(tmpBulletPos);
-				myplane->decreaseHp(bullet->getDamage());
-				delete bullet;
-				bullet = NULL;
-			}
-		}
-
-
-		// 子弹打中子弹
-		bulletPos = myBulletList.GetHeadPosition(), tmpBulletPos = bulletPos;
-		while (bulletPos != NULL) {
-			tmpBulletPos = bulletPos;
-			CBullet* myBullet = (CBullet*)myBulletList.GetNext(bulletPos);
-			POSITION bulletPos1 = enemyBulletList.GetHeadPosition(), tmpBulletPos1 = bulletPos1;
-			while (bulletPos1 != NULL) {
-				tmpBulletPos1 = bulletPos1;
-				CBullet* enemyBullet = (CBullet*)enemyBulletList.GetNext(bulletPos1);
-				ASSERT(myBullet->getFromMe() != enemyBullet->getFromMe());
+			// 战机吃到补给包
+			supplyPos = supplyList.GetHeadPosition(), tmpSupplyPos = supplyPos;
+			while (supplyPos != NULL) {
+				tmpSupplyPos = supplyPos;
+				CSupply* supply = (CSupply*)supplyList.GetNext(supplyPos);
 				CRect tmpRect;
-				if (tmpRect.IntersectRect(&(myBullet->GetRect()), &(enemyBullet->GetRect()))) {
-					// 战机子弹和敌机子弹有重合，即战机子弹打中敌机子弹
-					myBulletList.RemoveAt(tmpBulletPos);
-					enemyBulletList.RemoveAt(tmpBulletPos1);
-					delete myBullet;
-					delete enemyBullet;
-					myBullet = enemyBullet = NULL;
+				if (tmpRect.IntersectRect(&(myplane->GetRect()), &(supply->GetRect()))) {
+					// 战机和敌机区域有重合，即战机撞到敌机
+					myplane->increaseHp(supply->getHp());
+					supplyList.RemoveAt(tmpSupplyPos);
+					delete supply;
+					supply = NULL;
 					break;
 				}
-
-			}
-		}
-
-		// 战机撞到敌机
-		POSITION enemyPos = enemyList.GetHeadPosition(), tmpEnemyPos = enemyPos;
-		while (enemyPos != NULL) {
-			tmpEnemyPos = enemyPos;
-			CEnemy* enemy = (CEnemy*)enemyList.GetNext(enemyPos);
-			CRect tmpRect;
-			if (tmpRect.IntersectRect(&(myplane->GetRect()), &(enemy->GetRect()))) {
-				// 战机和敌机区域有重合，即战机撞到敌机
-				myplane->decreaseHp(2 * enemy->getDamage());
-				myScore += enemy->getScore();
-				enemyList.RemoveAt(tmpEnemyPos);
-				delete enemy;
-				enemy = NULL;
-				break;
 			}
 		}
 
@@ -493,7 +521,7 @@ void CAircraftBattleView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		}
 	}
 	else {
-		assert(isOver);
+		ASSERT(isOver);
 		if (GetKeyState('Y') < 0) {
 			isOver = false;
 			Restart();
@@ -619,6 +647,7 @@ void CAircraftBattleView::gameOver(CDC* pDC, CDC& cdc, CBitmap* cacheBitmap)
 	KillTimer(2);
 	KillTimer(3);
 	KillTimer(5);
+	KillTimer(6);
 	//播放游戏结束音乐
 	PlaySound((LPCTSTR)IDR_WAV_GAMEOVER, AfxGetInstanceHandle(), SND_RESOURCE | SND_ASYNC);
 	//清屏
@@ -637,5 +666,6 @@ void CAircraftBattleView::SetMyTimer()
 	SetTimer(1, 17, NULL);		//刷新界面定时器
 	SetTimer(2, 600, NULL);		//产生敌机定时器
 	SetTimer(3, 2000, NULL);	//产生敌机子弹定时器
-	SetTimer(5, 1200, NULL);		//产生高级敌机定时器
+	SetTimer(5, 1200, NULL);	//产生高级敌机定时器
+	SetTimer(6, 5000, NULL);	//产生补给包敌机定时器
 }

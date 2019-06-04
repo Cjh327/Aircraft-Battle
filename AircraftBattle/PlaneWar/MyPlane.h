@@ -26,18 +26,11 @@ public:
 	BOOL Draw(CDC* pDC, BOOL bPause);
 	//加载战机图像
 	static BOOL LoadImage();
-	static BOOL LoadImageProtect();
 	//得到战机矩形区域
 	CRect GetRect()	{
 		return CRect(mPoint, CPoint(mPoint.x + PLANE_WIDTH, mPoint.y + PLANE_HEIGHT));
 	}
 
-	//设置是否升级
-	void SetIsUpdate(BOOL isUpdate);
-	BOOL GetIsUpdate();
-
-	//是否可以开火发射导弹
-	BOOL isFire();
 private:
 	static CImageList images;//存储升级战机图片
 	static CImageList images1;//存储未升级战机图片

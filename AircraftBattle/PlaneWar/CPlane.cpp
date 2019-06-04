@@ -4,7 +4,7 @@
 
 CPlane::CPlane() {}
 
-CPlane::CPlane(int _hp, int _damage, int _speedX, int _speedY) : hp(_hp), damage(_damage), speedX(_speedX), speedY(_speedY) {}
+CPlane::CPlane(int _hp, int _damage, int _speedX, int _speedY) : hp(_hp), maxHp(_hp), damage(_damage), speedX(_speedX), speedY(_speedY) {}
 
 int CPlane::getHp() const {
 	return hp;
@@ -24,6 +24,10 @@ int CPlane::getSpeedY() const {
 
 void CPlane::decreaseHp(int x) {
 	hp = max(0, hp - x);
+}
+
+void CPlane::increaseHp(int x) {
+	hp = min(maxHp, hp + x);
 }
 
 bool CPlane::isAlive() const {

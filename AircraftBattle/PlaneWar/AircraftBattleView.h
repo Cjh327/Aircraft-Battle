@@ -43,6 +43,7 @@ public:
 	CObList enemyList;
 	CObList myBulletList;
 	CObList enemyBulletList;
+	CObList supplyList;
 
 	CRect rect;//´°¿ÚÆÁÄ»¾ØÐÎ
 

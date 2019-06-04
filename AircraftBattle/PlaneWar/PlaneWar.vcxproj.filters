@@ -78,6 +78,9 @@
     <ClInclude Include="CPlane.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="CSupply.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -132,6 +135,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="CPlane.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CSupply.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

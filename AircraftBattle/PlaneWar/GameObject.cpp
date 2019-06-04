@@ -3,12 +3,20 @@
 // GameObject.cpp : 实现文件
 
 //初始化游戏对象位置
-CGameObject::CGameObject(int x, int y) :mPoint(x, y)
-{
+CGameObject::CGameObject(int x, int y) :mPoint(x, y) {}
+
+CGameObject::~CGameObject(){}
+
+CPoint CGameObject::GetPoint() {
+	return mPoint;
 }
-CGameObject::~CGameObject()
+
+void CGameObject::SetPoint(int x, int y)
 {
+	mPoint.x = x;
+	mPoint.y = y;
 }
+
 BOOL CGameObject::LoadImage(CImageList& images, UINT bmpID, COLORREF crMask, int cx, int cy, int nInitial)
 {
 	//加载游戏对象的图标对象
