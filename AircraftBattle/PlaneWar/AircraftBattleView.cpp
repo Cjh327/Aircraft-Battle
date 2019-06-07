@@ -158,7 +158,7 @@ int CAircraftBattleView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	}
 
 	//参数初始化
-	myplane = new CMyPlane(false);
+	myplane = new CMyPlane();
 	isStarted = false;
 	isPause = false;
 	isOver = false;
@@ -227,7 +227,7 @@ void CAircraftBattleView::OnTimer(UINT_PTR nIDEvent)
 		}
 		// 刷新显示战机
 		if (myplane != NULL) {
-			myplane->Draw(&cdc, FALSE, FALSE);
+			myplane->Draw(&cdc, FALSE);
 		}
 		// 随机产生敌机和补给包
 		if (myplane != NULL && !isPause) {
@@ -545,10 +545,9 @@ void CAircraftBattleView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 void CAircraftBattleView::OnMouseMove(UINT nFlags, CPoint point)
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
-
 	if (myplane != NULL && isPause == 0) {
 		//绘制新游戏对象
-		myplane->SetPoint(point.x - PLANE1_WIDTH / 2, point.y - PLANE1_HEIGHT / 2);
+		myplane->SetPoint(point.x - PLANE_WIDTH / 2, point.y - PLANE_HEIGHT / 2);
 	}
 	CView::OnMouseMove(nFlags, point);
 }
@@ -617,7 +616,7 @@ void CAircraftBattleView::Restart()
 {
 	// TODO: 在此处添加游戏重新开始初始化参数
 	// 重新加载战机
-	myplane = new CMyPlane(FALSE);
+	myplane = new CMyPlane();
 
 	// 清空敌机链表
 	if (enemyList.GetCount() > 0)

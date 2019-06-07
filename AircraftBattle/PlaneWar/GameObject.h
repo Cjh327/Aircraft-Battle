@@ -1,7 +1,7 @@
 #pragma once
 #include "afx.h"
 
-// 游戏对象的父类，所有游戏对象都继承自它
+
 class CGameObject : public CObject
 {
 public:
