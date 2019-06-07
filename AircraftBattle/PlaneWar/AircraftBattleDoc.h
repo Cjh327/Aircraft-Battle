@@ -12,12 +12,6 @@ protected: // 仅从序列化创建
 	CAircraftBattleDoc();
 	DECLARE_DYNCREATE(CAircraftBattleDoc)
 
-// 特性
-public:
-
-// 操作
-public:
-
 // 重写
 public:
 	virtual BOOL OnNewDocument();
@@ -36,6 +30,10 @@ public:
 #endif
 
 protected:
+	int maxScore;
+
+public:
+	int getMaxScore() const;
 
 // 生成的消息映射函数
 protected:

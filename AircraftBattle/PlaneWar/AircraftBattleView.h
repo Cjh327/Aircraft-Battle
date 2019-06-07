@@ -51,7 +51,8 @@ public:
 	bool isPause;   // 是否暂停
 	bool isOver;	// 是否游戏结束
 
-	int myScore;		// 游戏得分
+	int myScore;	// 游戏得分
+	int maxScore;	// 历史最高得分
 
 	CImageList startIMG;
 

@@ -30,7 +30,7 @@ END_MESSAGE_MAP()
 CAircraftBattleDoc::CAircraftBattleDoc()
 {
 	// TODO: 在此添加一次性构造代码
-
+	maxScore = 10;
 }
 
 CAircraftBattleDoc::~CAircraftBattleDoc()
@@ -132,3 +132,7 @@ void CAircraftBattleDoc::Dump(CDumpContext& dc) const
 
 
 // CAircraftBattleDoc 命令
+
+int CAircraftBattleDoc::getMaxScore() const {
+	return maxScore;
+}

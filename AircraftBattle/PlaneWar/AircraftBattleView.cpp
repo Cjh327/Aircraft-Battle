@@ -49,8 +49,6 @@ END_MESSAGE_MAP()
 
 CAircraftBattleView::CAircraftBattleView()
 {
-	//默认战机飞行速度、战机生命值、战机得分、关卡、是否过关、是否暂停
-
 	// TODO: 在此处添加构造代码
 }
 
@@ -70,6 +68,7 @@ BOOL CAircraftBattleView::PreCreateWindow(CREATESTRUCT& cs)
 void CAircraftBattleView::OnDraw(CDC* pDC)
 {
 	CAircraftBattleDoc* pDoc = GetDocument();
+	maxScore = pDoc->getMaxScore();
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
@@ -205,23 +204,19 @@ void CAircraftBattleView::OnTimer(UINT_PTR nIDEvent)
 		tipFont = CreateFont(30, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 10, 0);
 		cdc.SelectObject(tipFont);
 		cdc.SetTextColor(RGB(0, 0, 0));
-		cdc.TextOutW(rect.right / 2 - 200, 210, _T("点击鼠标左键或空格键开始游戏"));
+		cdc.TextOutW(rect.right / 2 - 200, 220, _T("点击鼠标左键或空格键开始游戏"));
+		cdc.SetTextColor(RGB(0, 0, 255));
+		CString str;
+		str.Format(_T("最高纪录：%d"), maxScore);
+		cdc.TextOutW(rect.right / 2 - 100, 270, str);
 		HFONT textFont;
-		textFont = CreateFont(18, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 10, 0);
+		textFont = CreateFont(24, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 10, 0);
 		cdc.SelectObject(textFont);
 		cdc.SetTextColor(RGB(128, 128, 0));
-		const int space = 30, off = 180;
-		cdc.TextOutW(rect.right / 2 - off, 210 + space, _T("方向控制：方向键、ASDW、鼠标"));
-		cdc.TextOutW(rect.right / 2 - off, 210 + 2 * space, _T("射击：空格键、鼠标左键"));
-		cdc.TextOutW(rect.right / 2 - off, 210 + 3 * space, _T("暂停：Q键"));
-		cdc.TextOutW(rect.right / 2 - off, 210 + 4 * space, _T("战机升级：V键"));
-		cdc.TextOutW(rect.right / 2 - off, 210 + 5 * space, _T("无敌模式：Y键"));
-		cdc.TextOutW(rect.right / 2 - off, 210 + 6 * space, _T("初始生命值：10"));
-		cdc.TextOutW(rect.right / 2 - off, 210 + 7 * space, _T("敌机生命值：2"));
-		cdc.TextOutW(rect.right / 2 - off, 210 + 11 * space, _T("消灭一个敌机加1分，如果分数达到要求即可进入Boss模式，打赢Boss即可进入下一关。"));
-		cdc.TextOutW(rect.right / 2 - off, 210 + 12 * space, _T("魔法值随着游戏进程增加，可通过使用魔法值使用防护罩、战机升级、战机大招的使用。"));
-		cdc.TextOutW(rect.right / 2 - off, 210 + 13 * space, _T("游戏过程中会有一定程度的血包出现以恢复生命值。"));
-		cdc.TextOutW(rect.right / 2 - off, 210 + 14 * space, _T("随着关卡增多，敌机、炮弹速度和数量均增加，通过10关即可通关！"));
+		const int space = 30, off = 150;
+		cdc.TextOutW(rect.right / 2 - off, 320, _T("方向控制：鼠标"));
+		cdc.TextOutW(rect.right / 2 - off, 320 + 1 * space, _T("射击：空格键、鼠标左键"));
+		cdc.TextOutW(rect.right / 2 - off, 320 + 2 * space, _T("暂停：Q键"));
 	}
 	else if (isStarted && !isOver) {
 		// 游戏界面
@@ -410,7 +405,7 @@ void CAircraftBattleView::OnTimer(UINT_PTR nIDEvent)
 				CSupply* supply = (CSupply*)supplyList.GetNext(supplyPos);
 				CRect tmpRect;
 				if (tmpRect.IntersectRect(&(myplane->GetRect()), &(supply->GetRect()))) {
-					// 战机和敌机区域有重合，即战机撞到敌机
+					// 战机和补给包区域有重合，即战机吃到补给包
 					myplane->increaseHp(supply->getHp());
 					supplyList.RemoveAt(tmpSupplyPos);
 					delete supply;
@@ -420,21 +415,23 @@ void CAircraftBattleView::OnTimer(UINT_PTR nIDEvent)
 			}
 		}
 
-		//游戏界面输出该游戏当前信息
+		// 游戏界面输出该游戏当前信息
 		if (myplane != NULL) {
 			HFONT font;
 			font = CreateFont(20, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 10, 0);
 			cdc.SelectObject(font);
 			CString str;
 			cdc.SetTextColor(RGB(255, 0, 0));
-			//设置透明背景
+			// 设置透明背景
 			cdc.SetBkMode(TRANSPARENT);
 			cdc.SelectObject(font);
 			cdc.SetTextColor(RGB(255, 0, 0));
-			cdc.TextOutW(rect.right - 12 * PLANE_HP - 60, 0, _T("血量："));
-			str.Format(_T("得分：%d"), myScore);
-			cdc.TextOutW(rect.right - 12 * PLANE_HP - 60, 20, str);
-			//输出血条
+			cdc.TextOutW(rect.right - 12 * PLANE_HP - 80, 0, _T("血量："));
+			str.Format(_T("当前得分：%d"), myScore);
+			cdc.TextOutW(rect.right - 12 * PLANE_HP - 80, 20, str);
+			str.Format(_T("历史最高得分：%d"), maxScore);
+			cdc.TextOutW(rect.right - 12 * PLANE_HP - 80, 40, str);
+			// 输出血条
 			CBrush brush;
 			brush.CreateSolidBrush(RGB(255, 0, 0));
 			CBrush* oldBrush = cdc.SelectObject(&brush);
@@ -444,7 +441,7 @@ void CAircraftBattleView::OnTimer(UINT_PTR nIDEvent)
 			cdc.Rectangle(leftPos, topPos, rightPos, buttomPos);
 			brush.DeleteObject();
 
-			//输出血条中的详细血值
+			// 输出血条中的详细血值
 			HFONT textFont;
 			textFont = CreateFont(12, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 10, 0);
 			cdc.SelectObject(textFont);
@@ -463,16 +460,26 @@ void CAircraftBattleView::OnTimer(UINT_PTR nIDEvent)
 		HFONT textFont;
 		textFont = CreateFont(18, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 10, 0);
 		cdc.SelectObject(textFont);
-		//设置透明背景
+		// 设置透明背景
 		cdc.SetBkMode(TRANSPARENT);
 		cdc.SetTextColor(RGB(255, 255, 255));
-		//显示最后结果
+		// 显示最后结果
 		CString str;
-		cdc.TextOutW(rect.right / 2 - 100, rect.bottom / 2 - 30, _T("GAME OVER！"));
-		str.Format(_T("您的得分为：%d"), myScore);
-		cdc.TextOutW(rect.right / 2 - 100, rect.bottom / 2 - 5, str);
-		cdc.TextOutW(rect.right / 2 - 100, rect.bottom / 2 + 30, _T("不要灰心！再来一次！"));
-		cdc.TextOutW(rect.right / 2 - 100, rect.bottom / 2 + 55, _T("是否重新开始？Y/N"));
+		cdc.TextOutW(rect.right / 2 - 100, rect.bottom / 2 - 60, _T("GAME OVER"));
+		if (myScore > maxScore) {
+			cdc.TextOutW(rect.right / 2 - 100, rect.bottom / 2 - 30, _T("太棒了！新的得分纪录！"));
+			str.Format(_T("您的得分为：%d"), myScore);
+			cdc.TextOutW(rect.right / 2 - 100, rect.bottom / 2, str);
+			cdc.TextOutW(rect.right / 2 - 100, rect.bottom / 2 + 30, _T("再接再厉！"));
+			cdc.TextOutW(rect.right / 2 - 100, rect.bottom / 2 + 60, _T("是否重新开始？Y/N"));
+		}
+		else {
+			str.Format(_T("您的得分为：%d"), myScore);
+			cdc.TextOutW(rect.right / 2 - 100, rect.bottom / 2 - 30, str);
+			cdc.TextOutW(rect.right / 2 - 100, rect.bottom / 2, _T("不要灰心！再来一次！"));
+			cdc.TextOutW(rect.right / 2 - 100, rect.bottom / 2 + 30, _T("是否重新开始？Y/N"));
+			maxScore = myScore;
+		}
 	}
 
 	//将二级缓冲cdc中的数据推送到一级级缓冲pDC中，即输出到屏幕中
@@ -609,7 +616,7 @@ void CAircraftBattleView::OnDestroy()
 void CAircraftBattleView::Restart()
 {
 	// TODO: 在此处添加游戏重新开始初始化参数
-	// 战机重新加载
+	// 重新加载战机
 	myplane = new CMyPlane(FALSE);
 
 	// 清空敌机链表
@@ -626,7 +633,6 @@ void CAircraftBattleView::Restart()
 	isPause = false;
 	isOver = false;
 	myScore = 0;
-	//isStarted = FALSE;
 	SetMyTimer();
 }
 
