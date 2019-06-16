@@ -657,8 +657,6 @@ void CAircraftBattleView::gameOver(CDC* pDC, CDC& cdc, CBitmap* cacheBitmap)
 	KillTimer(3);
 	KillTimer(5);
 	KillTimer(6);
-	//播放游戏结束音乐
-	PlaySound((LPCTSTR)IDR_WAV_GAMEOVER, AfxGetInstanceHandle(), SND_RESOURCE | SND_ASYNC);
 	//清屏
 	CBitmap* tCache = cacheBitmap;
 	cacheBitmap = new CBitmap;

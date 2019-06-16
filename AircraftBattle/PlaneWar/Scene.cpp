@@ -18,18 +18,11 @@ bool CScene::InitScene() {
 	this->isStart = true;
 	this->beginY = 0;
 
-	//播放背景音乐
-	mciSendString(L"open sound\\background.mp3 alias bgm", NULL, 0, NULL);
-	mciSendString(L"play bgm repeat", NULL, 0, NULL);
 	return true;
 }
 
 //绘制场景
 void CScene::StickScene(CDC* pDC, int index, CRect rClient) {
-	//if (index == -1)
-	//	index = 0;
-	//else
-	//	index = index % 7 + 1;
 	//设置缩放图片的模式为:COLORONCOLOR, 以消除像素重叠
 	pDC->SetStretchBltMode(COLORONCOLOR);
 

@@ -301,33 +301,4 @@
     </None>
     <None Include="ClassDiagram.cd" />
   </ItemGroup>
-  <ItemGroup>
-    <Media Include="sound\background.wav">
-      <Filter>资源文件</Filter>
-    </Media>
-    <Media Include="sound\bomb.wav">
-      <Filter>资源文件</Filter>
-    </Media>
-    <Media Include="sound\explosion.wav">
-      <Filter>资源文件</Filter>
-    </Media>
-    <Media Include="sound\dazhao.wav">
-      <Filter>资源文件</Filter>
-    </Media>
-    <Media Include="sound\game_over.wav">
-      <Filter>资源文件</Filter>
-    </Media>
-    <Media Include="sound\protect.wav">
-      <Filter>资源文件</Filter>
-    </Media>
-    <Media Include="sound\update.wav">
-      <Filter>资源文件</Filter>
-    </Media>
-    <Media Include="sound\blood.wav">
-      <Filter>资源文件</Filter>
-    </Media>
-    <Media Include="sound\ball.wav">
-      <Filter>资源文件</Filter>
-    </Media>
-  </ItemGroup>
 </Project>

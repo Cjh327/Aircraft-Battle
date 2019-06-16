@@ -481,30 +481,6 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// WAVE
-//
-
-IDR_WAV_BACKGROUND      WAVE                    "sound\\background.wav"
-
-IDR_WAV_BOMB            WAVE                    "sound\\bomb.wav"
-
-IDR_WAV_EXPLOSION       WAVE                    "sound\\explosion.wav"
-
-IDR_WAV_DAZHAO          WAVE                    "sound\\dazhao.wav"
-
-IDR_WAV_GAMEOVER        WAVE                    "sound\\game_over.wav"
-
-IDR_WAV_PROTECT         WAVE                    "sound\\protect.wav"
-
-IDR_WAV_UPDATE          WAVE                    "sound\\update.wav"
-
-IDR_WAV_BLOOD           WAVE                    "sound\\blood.wav"
-
-IDR_WAV_BALL            WAVE                    "sound\\ball.wav"
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
 // AFX_DIALOG_LAYOUT
 //
 

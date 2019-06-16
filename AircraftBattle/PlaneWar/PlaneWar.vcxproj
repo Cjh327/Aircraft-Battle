@@ -297,17 +297,6 @@
     <None Include="res\PlaneWar.rc2" />
     <None Include="res\sound1.bin" />
   </ItemGroup>
-  <ItemGroup>
-    <Media Include="sound\background.wav" />
-    <Media Include="sound\ball.wav" />
-    <Media Include="sound\blood.wav" />
-    <Media Include="sound\bomb.wav" />
-    <Media Include="sound\dazhao.wav" />
-    <Media Include="sound\explosion.wav" />
-    <Media Include="sound\game_over.wav" />
-    <Media Include="sound\protect.wav" />
-    <Media Include="sound\update.wav" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
