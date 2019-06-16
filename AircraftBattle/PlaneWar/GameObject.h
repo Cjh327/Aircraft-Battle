@@ -2,8 +2,7 @@
 #include "afx.h"
 
 
-class CGameObject : public CObject
-{
+class CGameObject : public CObject {
 public:
 	CGameObject(int x = 0, int y = 0);
 	virtual ~CGameObject();

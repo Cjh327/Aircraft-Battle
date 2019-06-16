@@ -34,6 +34,7 @@ protected:
 
 public:
 	int getMaxScore() const;
+	void setMaxScore(const int score);
 
 // 生成的消息映射函数
 protected:

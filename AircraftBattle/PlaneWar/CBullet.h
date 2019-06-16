@@ -30,7 +30,7 @@ public:
 	//绘制
 	BOOL Draw(CDC* pDC, BOOL bPause);
 
-	//加载敌机图像
+	//加载子弹图像
 	static BOOL LoadImage();
 
 };

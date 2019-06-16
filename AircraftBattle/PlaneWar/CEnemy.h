@@ -9,8 +9,7 @@
 #define ENEMY_DAMAGE	1		// 敌机伤害
 #define ENEMY_SCORE		10		// 敌机分数
 
-class CEnemy : public CPlane
-{
+class CEnemy : public CPlane {
 private:
 	int score;
 	int index;

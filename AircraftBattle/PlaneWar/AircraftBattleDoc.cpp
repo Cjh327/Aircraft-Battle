@@ -30,7 +30,13 @@ END_MESSAGE_MAP()
 CAircraftBattleDoc::CAircraftBattleDoc()
 {
 	// TODO: 在此添加一次性构造代码
-	maxScore = 10;
+	CString fileName("data.txt");
+	CFile file(fileName, CFile::modeRead);
+	CArchive ar(&file, CArchive::load);
+	ar >> maxScore;
+	ar.Flush();
+	ar.Close();
+	file.Close();
 }
 
 CAircraftBattleDoc::~CAircraftBattleDoc()
@@ -73,7 +79,7 @@ void CAircraftBattleDoc::OnDrawThumbnail(CDC& dc, LPRECT lprcBounds)
 	CString strText = _T("TODO: implement thumbnail drawing here");
 	LOGFONT lf;
 
-	CFont* pDefaultGUIFont = CFont::FromHandle((HFONT) GetStockObject(DEFAULT_GUI_FONT));
+	CFont* pDefaultGUIFont = CFont::FromHandle((HFONT)GetStockObject(DEFAULT_GUI_FONT));
 	pDefaultGUIFont->GetLogFont(&lf);
 	lf.lfHeight = 36;
 
@@ -104,7 +110,7 @@ void CAircraftBattleDoc::SetSearchContent(const CString& value)
 	}
 	else
 	{
-		CMFCFilterChunkValueImpl *pChunk = NULL;
+		CMFCFilterChunkValueImpl* pChunk = NULL;
 		ATLTRY(pChunk = new CMFCFilterChunkValueImpl);
 		if (pChunk != NULL)
 		{
@@ -135,4 +141,15 @@ void CAircraftBattleDoc::Dump(CDumpContext& dc) const
 
 int CAircraftBattleDoc::getMaxScore() const {
 	return maxScore;
+}
+
+void CAircraftBattleDoc::setMaxScore(const int score) {
+	maxScore = score;
+	CString fileName("data.txt");
+	CFile file(fileName, CFile::modeCreate | CFile::modeWrite); 
+	CArchive ar(&file, CArchive::store);
+	ar << maxScore;
+	ar.Flush();
+	ar.Close();
+	file.Close();
 }

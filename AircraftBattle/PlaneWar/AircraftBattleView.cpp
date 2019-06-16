@@ -68,10 +68,10 @@ BOOL CAircraftBattleView::PreCreateWindow(CREATESTRUCT& cs)
 void CAircraftBattleView::OnDraw(CDC* pDC)
 {
 	CAircraftBattleDoc* pDoc = GetDocument();
-	maxScore = pDoc->getMaxScore();
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
+	maxScore = pDoc->getMaxScore();
 
 	// TODO: 在此处为本机数据添加绘制代码
 }
@@ -212,11 +212,10 @@ void CAircraftBattleView::OnTimer(UINT_PTR nIDEvent)
 		HFONT textFont;
 		textFont = CreateFont(24, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 10, 0);
 		cdc.SelectObject(textFont);
-		cdc.SetTextColor(RGB(128, 128, 0));
-		const int space = 30, off = 150;
-		cdc.TextOutW(rect.right / 2 - off, 320, _T("方向控制：鼠标"));
-		cdc.TextOutW(rect.right / 2 - off, 320 + 1 * space, _T("射击：空格键、鼠标左键"));
-		cdc.TextOutW(rect.right / 2 - off, 320 + 2 * space, _T("暂停：Q键"));
+		cdc.SetTextColor(RGB(255, 255, 0));
+		const int space = 30, off = 200;
+		cdc.TextOutW(rect.right / 2 - off, 400, _T("方向控制：鼠标"));
+		cdc.TextOutW(rect.right / 2 - off, 400 + 1 * space, _T("射击：空格键、鼠标左键"));
 	}
 	else if (isStarted && !isOver) {
 		// 游戏界面
@@ -472,13 +471,18 @@ void CAircraftBattleView::OnTimer(UINT_PTR nIDEvent)
 			cdc.TextOutW(rect.right / 2 - 100, rect.bottom / 2, str);
 			cdc.TextOutW(rect.right / 2 - 100, rect.bottom / 2 + 30, _T("再接再厉！"));
 			cdc.TextOutW(rect.right / 2 - 100, rect.bottom / 2 + 60, _T("是否重新开始？Y/N"));
+			maxScore = myScore;
+			CAircraftBattleDoc* pDoc = GetDocument();
+			ASSERT_VALID(pDoc);
+			if (!pDoc)
+				return;
+			pDoc->setMaxScore(maxScore);
 		}
 		else {
 			str.Format(_T("您的得分为：%d"), myScore);
 			cdc.TextOutW(rect.right / 2 - 100, rect.bottom / 2 - 30, str);
 			cdc.TextOutW(rect.right / 2 - 100, rect.bottom / 2, _T("不要灰心！再来一次！"));
 			cdc.TextOutW(rect.right / 2 - 100, rect.bottom / 2 + 30, _T("是否重新开始？Y/N"));
-			maxScore = myScore;
 		}
 	}
 
